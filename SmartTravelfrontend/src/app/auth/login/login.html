@@ -1,0 +1,55 @@
+<div class="login-wrapper">
+  <div class="login-card">
+
+    <div class="app-header">
+      <small class="brand">SMARTTRAVEL</small>
+      <div class="d-flex align-items-center gap-2">
+        <mat-icon class="logo-icon" aria-hidden="true">flight_takeoff</mat-icon>
+        <h1 class="title">Connexion</h1>
+      </div>
+      <span class="subtitle">Accédez à votre compte</span>
+    </div>
+
+    <div class="app-body">
+      <p class="section-title">Vos identifiants</p>
+
+      <form (ngSubmit)="login()">
+        <div class="field-box mb-3">
+          <mat-icon class="field-icon" aria-hidden="true">email</mat-icon>
+          <input
+            type="email"
+            name="email"
+            placeholder="Adresse email"
+            autocomplete="email"
+            aria-label="Adresse email"
+            [(ngModel)]="email"
+            required />
+        </div>
+
+        <div class="field-box mb-2">
+          <mat-icon class="field-icon" aria-hidden="true">lock</mat-icon>
+          <input
+            [type]="showPassword ? 'text' : 'password'"
+            name="password"
+            placeholder="Mot de passe"
+            autocomplete="current-password"
+            aria-label="Mot de passe"
+            [(ngModel)]="password"
+            required />
+          <button type="button" class="toggle-pass"
+                  (click)="showPassword = !showPassword"
+                  aria-label="Afficher ou masquer le mot de passe">
+            <mat-icon>{{ showPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
+        </div>
+
+        <div class="text-end mb-4">
+          <a routerLink="/updatepassword" class="forgot-link">Mot de passe oublié ?</a>
+        </div>
+
+        <button type="submit" class="btn-main">SE CONNECTER</button>
+      </form>
+    </div>
+
+  </div>
+</div>
