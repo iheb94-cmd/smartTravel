@@ -8,6 +8,7 @@ import com.example.SmartTravel.enums.Role;
 import com.example.SmartTravel.mapper.UserMapper;
 import com.example.SmartTravel.repository.UserRepository;
 import com.example.SmartTravel.service.AuthService;
+import com.example.SmartTravel.dto.RegisterRequest;
 
 import lombok.RequiredArgsConstructor;
 
@@ -42,6 +43,12 @@ public class AuthController {
         User saved = userRepository.save(user);
 
         return ResponseEntity.ok(UserMapper.mapToDto(saved));
+    }
+
+
+    @PostMapping("/register")
+    public ResponseEntity<UserDto> register(@RequestBody RegisterRequest request) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(authService.register(request));
     }
 
 
