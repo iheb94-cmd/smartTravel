@@ -18,6 +18,7 @@ public class User {
     private String nom;
     private String prenom;
 
+
     @Column(unique = true, nullable = false)
     private String email;
 
@@ -25,6 +26,8 @@ public class User {
     private String password;
 
     private String telephone;
+    private Integer age;
+    private String pays;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
