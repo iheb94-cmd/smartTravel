@@ -31,3 +31,9 @@ build/
 
 ### VS Code ###
 .vscode/
+
+
+   ### pour renitialisation du mail###
+   local.properties
+   target/
+   .idea/
