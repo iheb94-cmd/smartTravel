@@ -27,6 +27,7 @@ public class SecurityConfig {
                 .cors(cors -> {})
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**",
+                                "/api/offers/**",
                                 "/swagger-ui.html",
                                 "/swagger-ui/**",
                                 "/v3/api-docs/**",

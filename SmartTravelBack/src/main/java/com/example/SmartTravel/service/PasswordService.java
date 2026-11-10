@@ -25,7 +25,6 @@ public class PasswordService {
         this.userRepository = userRepository;
         this.mailSender = mailSender;
         this.passwordEncoder = passwordEncoder;
-
     }
 
 
