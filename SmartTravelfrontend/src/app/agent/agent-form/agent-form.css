@@ -1,0 +1,190 @@
+:host {
+  --navy: #12304d;
+  --teal: #1a9a98;
+  --teal-dark: #148583;
+  --gray: #f0f2f4;
+  --text: #1c2b3a;
+  --muted: #7b8794;
+  display: block;
+  min-height: calc(100dvh - 60px);
+  background: #eef1f4;
+  font-family: 'Roboto', sans-serif;
+  color: var(--text);
+}
+
+.page {
+  display: flex;
+  justify-content: center;
+  padding: 2rem 1rem;
+}
+
+/* ===== carte ===== */
+.form-card {
+  width: 100%;
+  max-width: 720px;
+  background: #fff;
+  border-radius: 24px;
+  overflow: hidden;
+  border: 1px solid #dde3e8;
+  box-shadow: 0 12px 40px rgba(18, 48, 77, 0.12);
+}
+
+/* ===== en-tête (comme le login) ===== */
+.form-header {
+  background: var(--navy);
+  color: #fff;
+  padding: 1.5rem 1.5rem 1.25rem;
+}
+
+.title-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.title-icon {
+  color: #fff;
+  font-size: 28px;
+  width: 28px;
+  height: 28px;
+}
+
+.title {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #fff;
+}
+
+.subtitle {
+  display: block;
+  margin-top: 4px;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* ===== corps ===== */
+.form-body { padding: 1.5rem; }
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.1rem 1rem;
+}
+
+.field label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--navy);
+}
+
+.field-box {
+  display: flex;
+  align-items: center;
+  background: var(--gray);
+  border: 1.5px solid transparent;
+  border-radius: 10px;
+  transition: border-color 0.2s, background 0.2s;
+}
+.field-box:focus-within {
+  background: #fff;
+  border-color: var(--teal);
+}
+
+.field-icon {
+  margin-left: 12px;
+  color: var(--muted);
+}
+
+.field-box input {
+  flex: 1;
+  min-width: 0;
+  height: 50px;
+  padding: 0 12px;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--text);
+  font-size: 0.95rem;
+}
+
+/* ===== boutons ===== */
+.actions {
+  grid-column: 1 / -1;
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 0.75rem;
+}
+
+.btn-main,
+.btn-cancel {
+  padding: 0.9rem 1.5rem;
+  border-radius: 10px;
+  font-weight: 800;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: filter 0.15s, transform 0.15s, background 0.15s, color 0.15s;
+}
+
+.btn-main {
+  border: 0;
+  background: var(--teal-dark);
+  color: #fff;
+}
+.btn-main:hover {
+  filter: brightness(1.12);
+  transform: translateY(-1px);
+}
+
+.btn-cancel {
+  background: transparent;
+  color: var(--navy);
+  border: 1.5px solid #c9d2da;
+}
+.btn-cancel:hover {
+  background: var(--gray);
+}
+
+.btn-main:focus-visible,
+.btn-cancel:focus-visible {
+  outline: 3px solid rgba(26, 154, 152, 0.5);
+  outline-offset: 2px;
+}
+
+/* ===== mobile ===== */
+@media (max-width: 600px) {
+  .form-grid { grid-template-columns: 1fr; }
+  .actions { flex-direction: column-reverse; }
+  .btn-main,
+  .btn-cancel { width: 100%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn-main,
+  .btn-cancel,
+  .field-box { transition: none; }
+  .btn-main:hover { transform: none; }
+}
+
+/* ===== contrôle de saisie ===== */
+.field-box.invalid {
+  background: #fff;
+  border-color: #c62828;
+}
+
+.error-text {
+  display: block;
+  margin-top: 5px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #b71c1c;
+}
+
+.hint-text {
+  display: block;
+  margin-top: 5px;
+  font-size: 0.75rem;
+  color: var(--muted);
+}

@@ -1,0 +1,235 @@
+:host {
+  --navy: #12304d;
+  --teal: #1a9a98;
+  --teal-dark: #148583;
+  --gray: #f0f2f4;
+  --text: #1c2b3a;
+  --muted: #7b8794;
+  --danger: #c62828;
+  display: block;
+  min-height: calc(100dvh - 60px);
+  background: #eef1f4;
+  font-family: 'Roboto', sans-serif;
+  color: var(--text);
+}
+
+.page {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+/* ===== en-tête (comme le header du login) ===== */
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  background: var(--navy);
+  color: #fff;
+  padding: 1.5rem;
+  border-radius: 24px;
+  box-shadow: 0 12px 40px rgba(18, 48, 77, 0.12);
+  margin-bottom: 1.25rem;
+}
+
+.title-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.title-icon {
+  color: #fff;
+  font-size: 28px;
+  width: 28px;
+  height: 28px;
+}
+
+.title {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #fff;
+}
+
+.subtitle {
+  display: block;
+  margin-top: 4px;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* ===== bouton principal ===== */
+.btn-main {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0.8rem 1.2rem;
+  border: 0;
+  border-radius: 10px;
+  background: var(--teal-dark);
+  color: #fff;
+  font-weight: 800;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: filter 0.15s, transform 0.15s;
+}
+.btn-main:hover {
+  filter: brightness(1.12);
+  transform: translateY(-1px);
+}
+.btn-main mat-icon {
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+}
+
+.btn-main:focus-visible,
+.btn-action:focus-visible {
+  outline: 3px solid rgba(26, 154, 152, 0.5);
+  outline-offset: 2px;
+}
+
+/* ===== états ===== */
+.state-box {
+  text-align: center;
+  color: var(--muted);
+  padding: 2rem;
+  font-weight: 600;
+}
+
+.error-msg {
+  background: #fdecea;
+  color: #b71c1c;
+  border-radius: 10px;
+  padding: 0.8rem 1rem;
+  font-size: 0.9rem;
+}
+
+/* ===== carte + tableau ===== */
+.card {
+  background: #fff;
+  border: 1px solid #dde3e8;
+  border-radius: 24px;
+  box-shadow: 0 12px 40px rgba(18, 48, 77, 0.12);
+  overflow: hidden;
+}
+
+.table-wrap { overflow-x: auto; }
+
+.agents-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.92rem;
+}
+
+.agents-table th {
+  background: var(--gray);
+  color: var(--navy);
+  font-size: 0.8rem;
+  font-weight: 800;
+  text-align: left;
+  padding: 1rem 1.25rem;
+  white-space: nowrap;
+}
+
+.agents-table td {
+  padding: 0.9rem 1.25rem;
+  border-top: 1px solid #e6ebef;
+  white-space: nowrap;
+}
+
+.agents-table tbody tr {
+  transition: background 0.15s;
+}
+.agents-table tbody tr:hover { background: #e9f6f6; }
+
+.col-actions { text-align: right !important; }
+
+/* avatar initiales */
+.cell-user {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 600;
+}
+
+.avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--navy);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+
+/* boutons d'action */
+.btn-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: 0.4rem;
+  padding: 0.5rem 0.8rem;
+  border-radius: 10px;
+  border: 1.5px solid transparent;
+  background: transparent;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+.btn-action mat-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+}
+
+.btn-edit {
+  color: var(--teal-dark);
+  border-color: var(--teal-dark);
+}
+.btn-edit:hover {
+  background: var(--teal-dark);
+  color: #fff;
+}
+
+.btn-delete {
+  color: var(--danger);
+  border-color: var(--danger);
+}
+.btn-delete:hover {
+  background: var(--danger);
+  color: #fff;
+}
+
+.empty {
+  text-align: center;
+  color: var(--muted);
+  padding: 2.5rem 1rem !important;
+}
+
+/* ===== mobile ===== */
+@media (max-width: 600px) {
+  .page-header {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+  }
+  .title-row { justify-content: center; }
+  .btn-main { justify-content: center; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn-main,
+  .btn-action,
+  .agents-table tbody tr { transition: none; }
+  .btn-main:hover { transform: none; }
+}
