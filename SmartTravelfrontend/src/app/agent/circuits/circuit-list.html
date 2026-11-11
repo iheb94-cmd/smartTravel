@@ -1,0 +1,182 @@
+
+<div class="page-container">
+
+  <div class="header">
+    <div>
+      <h2>Gestion des circuits</h2>
+    </div>
+
+    <a class="btn" routerLink="/circuits/nouveau">
+      + Ajouter un circuit
+    </a>
+  </div>
+
+  <div class="search-container">
+    <input
+      class="search"
+      type="search"
+      placeholder="Rechercher par titre, pays, ville ou type..."
+      aria-label="Rechercher un circuit"
+      (input)="onSearch($any($event.target).value)"
+    />
+  </div>
+
+  @if (error()) {
+    <p class="alert error" role="alert">{{ error() }}</p>
+  }
+
+  @if (success()) {
+    <p class="alert ok" role="status">{{ success() }}</p>
+  }
+
+  @if (loading()) {
+    <p class="loading">Chargement des circuits...</p>
+  }
+  @else if (circuits().length === 0) {
+    <div class="empty">
+      <h3>Aucun circuit trouvé</h3>
+      <p>Ajoutez un circuit ou modifiez votre recherche.</p>
+    </div>
+  }
+  @else {
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Circuit</th>
+            <th>Pays</th>
+            <th>Ville de départ</th>
+            <th>Départ</th>
+            <th>Retour</th>
+            <th>Durée</th>
+            <th>Prix / personne</th>
+            <th>Places</th>
+            <th>Statut</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          @for (c of circuits(); track c.idCircuit) {
+
+            <tr>
+              <td class="circuit-name">
+                <strong>{{ c.titre }}</strong>
+                <small>{{ c.typeCircuit }}</small>
+              </td>
+
+              <td>{{ c.pays }}</td>
+
+              <td>{{ c.villeDepart }}</td>
+
+              <td>{{ c.dateDepart }}</td>
+
+              <td>{{ c.dateRetour }}</td>
+
+              <td>{{ c.duree }} jours</td>
+
+              <td class="price">
+                {{ c.prix | number:'1.2-2' }} DT
+              </td>
+
+              <td>{{ c.nombrePlaces }}</td>
+
+              <td>
+                <span
+                  class="badge"
+                  [class]="'badge statut-' + c.statut.toLowerCase()"
+                >
+                  {{ statutLabels[c.statut] }}
+                </span>
+              </td>
+
+              <td class="actions">
+
+                <button
+                  type="button"
+                  class="btn-details"
+                  (click)="toggleDetails(c)"
+                >
+                  {{ expandedCircuitId() === c.idCircuit ? 'Masquer' : 'Détails' }}
+                </button>
+
+                <a
+                  class="edit"
+                  [routerLink]="['/circuits', c.idCircuit, 'modifier']"
+                >
+                  Modifier
+                </a>
+
+                <button
+                  type="button"
+                  class="delete"
+                  (click)="remove(c)"
+                >
+                  Supprimer
+                </button>
+
+              </td>
+            </tr>
+
+            @if (expandedCircuitId() === c.idCircuit) {
+              <tr class="details-row">
+                <td colspan="10">
+
+                  <div class="circuit-details">
+
+                    <div>
+                      <strong>Destinations</strong>
+                      <p>{{ c.destinations || 'Non renseignées' }}</p>
+                    </div>
+
+                    <div>
+                      <strong>Type de circuit</strong>
+                      <p>{{ c.typeCircuit || 'Non renseigné' }}</p>
+                    </div>
+
+                    <div>
+                      <strong>Nombre de places</strong>
+                      <p>{{ c.nombrePlaces }}</p>
+                    </div>
+
+                    <div>
+                      <strong>Ajouté par</strong>
+                      <p>{{ c.agentNom || 'Non renseigné' }}</p>
+                    </div>
+
+                    <div class="description">
+                      <strong>Programme détaillé</strong>
+                      <p>{{ c.programme || 'Aucun programme renseigné' }}</p>
+                    </div>
+
+                    <div class="description">
+                      <strong>Services inclus</strong>
+                      <p>{{ c.servicesInclus || 'Aucun service renseigné' }}</p>
+                    </div>
+
+                    <div class="description">
+                      <strong>Description</strong>
+                      <p>{{ c.description || 'Aucune description renseignée' }}</p>
+                    </div>
+
+                    @if (c.image) {
+                      <div class="circuit-image">
+                        <strong>Image du circuit</strong>
+                        <img [src]="c.image" [alt]="c.titre">
+                      </div>
+                    }
+
+                  </div>
+
+                </td>
+              </tr>
+            }
+
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+
+</div>

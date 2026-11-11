@@ -1,6 +1,6 @@
 <div class="header">
   <h2>{{ isEdit ? 'Modifier le vol' : 'Ajouter un vol' }}</h2>
-  <a class="back" routerLink="/agent/vols">Retour à la liste</a>
+  <a class="back" routerLink="t/vols">Retour à la liste</a>
 </div>
 
 @if (loading()) {
@@ -101,7 +101,7 @@
       <button type="submit" class="btn" [disabled]="saving()">
         {{ saving() ? 'Enregistrement...' : (isEdit ? 'Enregistrer les modifications' : 'Ajouter le vol') }}
       </button>
-      <a class="cancel" routerLink="/agent/vols">Annuler</a>
+      <a class="cancel" routerLink="/vols">Annuler</a>
     </div>
   </form>
 }

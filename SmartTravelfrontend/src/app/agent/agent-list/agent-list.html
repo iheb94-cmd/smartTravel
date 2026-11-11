@@ -1,0 +1,84 @@
+<div class="page">
+
+  <div class="page-header">
+    <div>
+      <div class="title-row">
+        <mat-icon class="title-icon" aria-hidden="true">groups</mat-icon>
+        <h1 class="title">Liste des agents</h1>
+      </div>
+      <span class="subtitle">{{ agents().length }} agent(s) enregistré(s)</span>
+    </div>
+
+    <button class="btn-main" (click)="navigateToAdd()">
+      <mat-icon aria-hidden="true">person_add</mat-icon>
+      Ajouter un agent
+    </button>
+  </div>
+
+  @if (loading()) {
+    <div class="state-box" role="status">Chargement...</div>
+  }
+  @else if (errorMessage()) {
+    <div class="error-msg" role="alert">
+      {{ errorMessage() }}
+    </div>
+  }
+  @else {
+    <div class="card">
+      <div class="table-wrap">
+        <table class="agents-table">
+
+          <thead>
+            <tr>
+              <th>Nom et prénom</th>
+              <th>Adresse e-mail</th>
+              <th>Téléphone</th>
+              <th class="col-actions">Actions</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            @for (agent of agents(); track agent.id) {
+              <tr>
+                <td>
+                  <div class="cell-user">
+                    <span class="avatar" aria-hidden="true">
+                      {{ (agent.nom?.[0] || '') + (agent.prenom?.[0] || '') }}
+                    </span>
+                    <span>{{ agent.nom }} {{ agent.prenom }}</span>
+                  </div>
+                </td>
+                <td>{{ agent.email }}</td>
+                <td>{{ agent.telephone || 'Non renseigné' }}</td>
+                <td class="col-actions">
+                  <button
+                    class="btn-action btn-edit"
+                    (click)="navigateToEdit(agent.id)">
+                    <mat-icon aria-hidden="true">edit</mat-icon>
+                    Modifier
+                  </button>
+
+                  <button
+                    class="btn-action btn-delete"
+                    (click)="deleteAgent(agent.id)">
+                    <mat-icon aria-hidden="true">delete</mat-icon>
+                    Supprimer
+                  </button>
+                </td>
+              </tr>
+            }
+            @empty {
+              <tr>
+                <td colspan="4" class="empty">
+                  Aucun agent enregistré.
+                </td>
+              </tr>
+            }
+          </tbody>
+
+        </table>
+      </div>
+    </div>
+  }
+
+</div>

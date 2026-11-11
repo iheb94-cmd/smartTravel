@@ -1,0 +1,217 @@
+
+<div class="page-container">
+
+  <!-- En-tête -->
+  <div class="page-header">
+    <div>
+      <h2>{{ isEdit ? 'Modifier une offre' : 'Créer une offre' }}</h2>
+      <p>
+        {{ isEdit
+          ? 'Modifiez les informations de votre package de voyage.'
+          : 'Composez un package avec un vol, un hôtel et un circuit.' }}
+      </p>
+    </div>
+
+    <button type="button" class="btn-back" (click)="cancel()">
+      ← Retour
+    </button>
+  </div>
+
+  <!-- Formulaire -->
+  <form [formGroup]="offreForm" (ngSubmit)="onSubmit()">
+
+    <!-- Informations générales -->
+    <div class="form-section">
+      <div class="section-header">
+        <div class="section-icon">📦</div>
+        <div>
+          <h3>Informations générales</h3>
+          <p>Définissez les informations principales du package.</p>
+        </div>
+      </div>
+
+      <div class="form-grid">
+
+        <div class="form-group full-width">
+          <label for="nomOffre">Nom de l'offre *</label>
+          <input
+            id="nomOffre"
+            type="text"
+            formControlName="nomOffre"
+            placeholder="Ex : Séjour découverte Istanbul">
+
+          @if (offreForm.get('nomOffre')?.touched &&
+               offreForm.get('nomOffre')?.invalid) {
+            <small class="field-error">Le nom de l'offre est obligatoire.</small>
+          }
+        </div>
+
+        <div class="form-group">
+          <label for="dateDebut">Date de début *</label>
+          <input
+            id="dateDebut"
+            type="date"
+            formControlName="dateDebut">
+        </div>
+
+        <div class="form-group">
+          <label for="dateFin">Date de fin *</label>
+          <input
+            id="dateFin"
+            type="date"
+            formControlName="dateFin">
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Composition du package -->
+    <div class="form-section">
+      <div class="section-header">
+        <div class="section-icon">✈️</div>
+        <div>
+          <h3>Composition du package</h3>
+          <p>Sélectionnez un vol, un hôtel et un circuit existants.</p>
+        </div>
+      </div>
+
+      <div class="form-grid">
+
+        <!-- Vol -->
+        <div class="form-group full-width">
+          <label for="volId">Vol *</label>
+
+          <select id="volId" formControlName="volId">
+            <option [ngValue]="null">-- Sélectionner un vol --</option>
+
+            @for (vol of vols; track vol.idVol) {
+              <option [ngValue]="vol.idVol">
+                {{ vol.numeroVol }} - {{ vol.compagnie }}
+                ({{ vol.villeDepart }} → {{ vol.villeArrivee }})
+              </option>
+            }
+          </select>
+
+          @if (vols.length === 0) {
+            <small class="field-info">Aucun vol disponible.</small>
+          }
+        </div>
+
+        <!-- Hôtel -->
+        <div class="form-group full-width">
+          <label for="hotelId">Hôtel *</label>
+
+          <select id="hotelId" formControlName="hotelId">
+            <option [ngValue]="null">-- Sélectionner un hôtel --</option>
+
+            @for (hotel of hotels; track hotel.idHotel) {
+              <option [ngValue]="hotel.idHotel">
+                {{ hotel.nom }} - {{ hotel.ville }}, {{ hotel.pays }}
+              </option>
+            }
+          </select>
+
+          @if (hotels.length === 0) {
+            <small class="field-info">Aucun hôtel disponible.</small>
+          }
+        </div>
+
+        <!-- Circuit -->
+        <div class="form-group full-width">
+          <label for="circuitId">Circuit touristique *</label>
+
+          <select id="circuitId" formControlName="circuitId">
+            <option [ngValue]="null">-- Sélectionner un circuit --</option>
+
+            @for (circuit of circuits; track circuit.idCircuit) {
+              <option [ngValue]="circuit.idCircuit">
+                {{ circuit.titre }} - {{ circuit.pays }}
+              </option>
+            }
+          </select>
+
+          @if (circuits.length === 0) {
+            <small class="field-info">Aucun circuit disponible.</small>
+          }
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Tarification et disponibilité -->
+    <div class="form-section">
+      <div class="section-header">
+        <div class="section-icon">💰</div>
+        <div>
+          <h3>Tarification et disponibilité</h3>
+          <p>Définissez le prix global et le nombre de places.</p>
+        </div>
+      </div>
+
+      <div class="form-grid">
+
+        <div class="form-group">
+          <label for="prixTotal">Prix total (DT) *</label>
+          <input
+            id="prixTotal"
+            type="number"
+            min="0.01"
+            step="0.01"
+            formControlName="prixTotal"
+            placeholder="Ex : 2500.00">
+        </div>
+
+        <div class="form-group">
+          <label for="nombrePlaces">Nombre de places *</label>
+          <input
+            id="nombrePlaces"
+            type="number"
+            min="1"
+            formControlName="nombrePlaces"
+            placeholder="Ex : 10">
+        </div>
+
+        <div class="form-group full-width">
+          <label for="statut">Statut de l'offre *</label>
+          <select id="statut" formControlName="statut">
+            <option value="DISPONIBLE">Disponible</option>
+            <option value="COMPLET">Complet</option>
+            <option value="ANNULE">Annulé</option>
+            <option value="INACTIF">Inactif</option>
+          </select>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Erreur -->
+    @if (errorMessage) {
+      <div class="error-message">
+        {{ errorMessage }}
+      </div>
+    }
+
+    <!-- Boutons -->
+    <div class="form-actions">
+      <button
+        type="button"
+        class="btn-cancel"
+        (click)="cancel()">
+        Annuler
+      </button>
+
+      <button
+        type="submit"
+        class="btn-submit"
+        [disabled]="loading">
+
+        {{ loading
+          ? 'Enregistrement...'
+          : (isEdit ? 'Enregistrer les modifications' : 'Créer le package') }}
+
+      </button>
+    </div>
+
+  </form>
+
+</div>

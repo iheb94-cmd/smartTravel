@@ -1,0 +1,169 @@
+
+.form-page {
+  padding: 25px;
+  max-width: 1100px;
+  margin: auto;
+}
+
+.form-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.form-header h2 {
+  color: #15364f;
+  margin: 0 0 8px;
+}
+
+.form-header p {
+  color: #687783;
+  margin: 0;
+}
+
+.btn-back,
+.btn-cancel {
+  padding: 11px 18px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  color: #15364f;
+  background: #eef1f4;
+}
+
+.form-section {
+  background: white;
+  border: 1px solid #e3e8ed;
+  border-radius: 12px;
+  padding: 22px;
+  margin-bottom: 20px;
+}
+
+.form-section h3 {
+  color: #15364f;
+  font-size: 18px;
+  margin: 0 0 22px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #e8edf0;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.field.full,
+.image-preview {
+  grid-column: 1 / -1;
+}
+
+.field label,
+.image-preview label {
+  font-weight: 600;
+  color: #34495e;
+  font-size: 14px;
+}
+
+.field input,
+.field select,
+.field textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #d8e0e6;
+  border-radius: 8px;
+  font-size: 14px;
+  box-sizing: border-box;
+  outline: none;
+  font-family: inherit;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  border-color: #159a9c;
+  box-shadow: 0 0 0 3px rgba(21, 154, 156, 0.10);
+}
+
+.field textarea {
+  resize: vertical;
+}
+
+.field small {
+  color: #bd392e;
+  font-size: 12px;
+}
+
+.image-preview img {
+  display: block;
+  width: 280px;
+  height: 165px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-top: 10px;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 25px;
+}
+
+.btn-save {
+  border: none;
+  background: #159a9c;
+  color: white;
+  padding: 12px 22px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-save:hover {
+  background: #117f81;
+}
+
+.btn-save:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.alert {
+  padding: 13px;
+  border-radius: 8px;
+  margin-bottom: 18px;
+}
+
+.alert.error {
+  background: #fde8e8;
+  color: #b42318;
+}
+
+.alert.success {
+  background: #e4f5eb;
+  color: #176b3a;
+}
+
+@media (max-width: 700px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .form-header {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .form-actions {
+    flex-direction: column;
+  }
+}

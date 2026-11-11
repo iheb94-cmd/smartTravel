@@ -1,0 +1,227 @@
+
+.page-container {
+  padding: 30px;
+  background: #f8fafc;
+  min-height: 100vh;
+}
+
+/* En-tête */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 28px;
+  gap: 20px;
+}
+
+.header h2 {
+  font-size: 26px;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0 0 8px;
+}
+
+.header p {
+  color: #64748b;
+  font-size: 14px;
+  margin: 0;
+}
+
+/* Bouton ajouter */
+.btn-add {
+  display: inline-block;
+  padding: 12px 20px;
+  background: #2563eb;
+  color: white;
+  text-decoration: none;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.btn-add:hover {
+  background: #1d4ed8;
+}
+
+/* Tableau */
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+  background: white;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 1100px;
+}
+
+thead {
+  background: #f1f5f9;
+}
+
+th {
+  padding: 16px 14px;
+  text-align: left;
+  color: #475569;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+td {
+  padding: 16px 14px;
+  border-top: 1px solid #e2e8f0;
+  color: #475569;
+  font-size: 13px;
+}
+
+tbody tr:hover {
+  background: #f8fafc;
+}
+
+.offer-name {
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.price {
+  font-weight: 700;
+  color: #2563eb;
+  white-space: nowrap;
+}
+
+.date-separator {
+  color: #94a3b8;
+  margin: 0 4px;
+}
+
+/* Statuts */
+.status {
+  display: inline-block;
+  padding: 6px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.available {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.complete {
+  background: #fef3c7;
+  color: #b45309;
+}
+
+.cancelled {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.inactive {
+  background: #e2e8f0;
+  color: #475569;
+}
+
+/* Actions */
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-details,
+.btn-edit,
+.btn-delete {
+  padding: 7px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.btn-details {
+  background: #e0f2fe;
+  color: #0369a1;
+}
+
+.btn-edit {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.btn-delete {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.btn-details:hover {
+  background: #bae6fd;
+}
+
+.btn-edit:hover {
+  background: #fde68a;
+}
+
+.btn-delete:hover {
+  background: #fecaca;
+}
+
+/* Messages */
+.message {
+  padding: 25px;
+  text-align: center;
+  color: #64748b;
+}
+
+.error-message {
+  padding: 14px;
+  background: #fee2e2;
+  color: #b91c1c;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+/* Liste vide */
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  background: white;
+  border: 1px dashed #cbd5e1;
+  border-radius: 12px;
+}
+
+.empty-state h3 {
+  color: #1e293b;
+  margin-bottom: 10px;
+}
+
+.empty-state p {
+  color: #64748b;
+  margin-bottom: 22px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .page-container {
+    padding: 18px;
+  }
+
+  .header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}

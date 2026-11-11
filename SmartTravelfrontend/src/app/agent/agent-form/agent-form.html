@@ -1,0 +1,138 @@
+<div class="page">
+
+  <div class="form-card">
+
+    <div class="form-header">
+      <div class="title-row">
+        <mat-icon class="title-icon" aria-hidden="true">{{ isEditing ? 'manage_accounts' : 'person_add' }}</mat-icon>
+        <h1 class="title">{{ isEditing ? 'Modifier l’agent' : 'Ajouter un nouvel agent' }}</h1>
+      </div>
+      <span class="subtitle">
+        {{ isEditing ? 'Mettez à jour les informations de l’agent' : 'Renseignez les informations du nouvel agent' }}
+      </span>
+    </div>
+
+    <div class="form-body">
+      <form #f="ngForm" (ngSubmit)="onSubmit(f)" class="form-grid" novalidate>
+
+        <!-- NOM -->
+        <div class="field">
+          <label for="nom">Nom</label>
+          <div class="field-box"
+               [class.invalid]="nom.invalid && (nom.touched || f.submitted)">
+            <mat-icon class="field-icon" aria-hidden="true">badge</mat-icon>
+            <input id="nom" type="text" name="nom" autocomplete="family-name"
+                   [(ngModel)]="agentData.nom" #nom="ngModel"
+                   required minlength="2" maxlength="50"
+                   pattern="^[A-Za-zÀ-ÿ\u0600-\u06FF' \-]+$"
+                   [attr.aria-invalid]="nom.invalid && (nom.touched || f.submitted)" />
+          </div>
+          @if (nom.invalid && (nom.touched || f.submitted)) {
+            <small class="error-text" role="alert">
+              @if (nom.hasError('required')) { Le nom est obligatoire. }
+              @else if (nom.hasError('minlength')) { Le nom doit contenir au moins 2 caractères. }
+              @else if (nom.hasError('pattern')) { Le nom ne doit contenir que des lettres. }
+            </small>
+          }
+        </div>
+
+        <!-- PRÉNOM -->
+        <div class="field">
+          <label for="prenom">Prénom</label>
+          <div class="field-box"
+               [class.invalid]="prenom.invalid && (prenom.touched || f.submitted)">
+            <mat-icon class="field-icon" aria-hidden="true">person</mat-icon>
+            <input id="prenom" type="text" name="prenom" autocomplete="given-name"
+                   [(ngModel)]="agentData.prenom" #prenom="ngModel"
+                   required minlength="2" maxlength="50"
+                   pattern="^[A-Za-zÀ-ÿ\u0600-\u06FF' \-]+$"
+                   [attr.aria-invalid]="prenom.invalid && (prenom.touched || f.submitted)" />
+          </div>
+          @if (prenom.invalid && (prenom.touched || f.submitted)) {
+            <small class="error-text" role="alert">
+              @if (prenom.hasError('required')) { Le prénom est obligatoire. }
+              @else if (prenom.hasError('minlength')) { Le prénom doit contenir au moins 2 caractères. }
+              @else if (prenom.hasError('pattern')) { Le prénom ne doit contenir que des lettres. }
+            </small>
+          }
+        </div>
+
+        <!-- EMAIL -->
+        <div class="field">
+          <label for="email">Adresse e-mail</label>
+          <div class="field-box"
+               [class.invalid]="email.invalid && (email.touched || f.submitted)">
+            <mat-icon class="field-icon" aria-hidden="true">email</mat-icon>
+            <input id="email" type="email" name="email" autocomplete="email"
+                   [(ngModel)]="agentData.email" #email="ngModel"
+                   required maxlength="100"
+                   pattern="^[^\s@]+@[^\s@]+\.[^\s@]{2,}$"
+                   [attr.aria-invalid]="email.invalid && (email.touched || f.submitted)" />
+          </div>
+          @if (email.invalid && (email.touched || f.submitted)) {
+            <small class="error-text" role="alert">
+              @if (email.hasError('required')) { L’adresse e-mail est obligatoire. }
+              @else { Adresse e-mail invalide (exemple : nom&#64;domaine.com). }
+            </small>
+          }
+        </div>
+
+        <!-- MOT DE PASSE (création seulement) -->
+        @if (!isEditing) {
+          <div class="field">
+            <label for="password">Mot de passe</label>
+            <div class="field-box"
+                 [class.invalid]="password.invalid && (password.touched || f.submitted)">
+              <mat-icon class="field-icon" aria-hidden="true">lock</mat-icon>
+              <input id="password" type="password" name="password" autocomplete="new-password"
+                     [(ngModel)]="agentData.password" #password="ngModel"
+                     required minlength="8" maxlength="64"
+                     pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$"
+                     [attr.aria-invalid]="password.invalid && (password.touched || f.submitted)" />
+            </div>
+            @if (password.invalid && (password.touched || f.submitted)) {
+              <small class="error-text" role="alert">
+                @if (password.hasError('required')) { Le mot de passe est obligatoire. }
+                @else if (password.hasError('minlength')) { Au moins 8 caractères sont requis. }
+                @else if (password.hasError('pattern')) { Ajoutez une majuscule, une minuscule et un chiffre. }
+              </small>
+            } @else {
+              <small class="hint-text">8 caractères min., avec majuscule, minuscule et chiffre.</small>
+            }
+          </div>
+        }
+
+        <!-- TÉLÉPHONE (optionnel) -->
+        <div class="field">
+          <label for="telephone">Numéro de téléphone</label>
+          <div class="field-box"
+               [class.invalid]="telephone.invalid && (telephone.touched || f.submitted)">
+            <mat-icon class="field-icon" aria-hidden="true">call</mat-icon>
+            <input id="telephone" type="tel" name="telephone" autocomplete="tel"
+                   inputmode="numeric" maxlength="8"
+                   [(ngModel)]="agentData.telephone" #telephone="ngModel"
+                   pattern="^[0-9]{8}$"
+                   [attr.aria-invalid]="telephone.invalid && (telephone.touched || f.submitted)" />
+          </div>
+          @if (telephone.invalid && (telephone.touched || f.submitted)) {
+            <small class="error-text" role="alert">
+              Le numéro doit contenir exactement 8 chiffres.
+            </small>
+          }
+        </div>
+
+        <div class="actions">
+          <button type="submit" class="btn-main">
+            {{ isEditing ? 'Mettre à jour' : 'Enregistrer' }}
+          </button>
+          <button type="button" class="btn-cancel" (click)="cancel()">
+            Annuler
+          </button>
+        </div>
+
+      </form>
+    </div>
+
+  </div>
+
+</div>

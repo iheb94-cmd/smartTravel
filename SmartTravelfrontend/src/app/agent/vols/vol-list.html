@@ -1,6 +1,6 @@
 <div class="header">
   <h2>Gestion des vols</h2>
-  <a class="btn" routerLink="/agent/vols/nouveau">Ajouter un vol</a>
+  <a class="btn" routerLink="/vols/nouveau">Ajouter un vol</a>
 </div>
 
 <input
@@ -60,7 +60,7 @@
                       [attr.aria-expanded]="expandedId() === v.idVol">
                 {{ expandedId() === v.idVol ? 'Masquer' : 'Détails' }}
               </button>
-              <a [routerLink]="['/agent/vols', v.idVol, 'modifier']">Modifier</a>
+              <a [routerLink]="['/vols', v.idVol, 'modifier']">Modifier</a>
               <button type="button" class="danger" (click)="remove(v)">Supprimer</button>
             </td>
           </tr>

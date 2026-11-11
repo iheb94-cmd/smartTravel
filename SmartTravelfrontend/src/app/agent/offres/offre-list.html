@@ -1,0 +1,129 @@
+
+<div class="page-container">
+
+  <!-- En-tête -->
+  <div class="header">
+    <div>
+      <h2>Gestion des offres</h2>
+    </div>
+
+    <a routerLink="/offres/nouveau" class="btn-add">
+      + Ajouter une offre
+    </a>
+  </div>
+
+  <!-- Message de chargement -->
+  @if (loading()) {
+    <div class="message">
+      Chargement des offres...
+    </div>
+  }
+
+  <!-- Message d'erreur -->
+  @if (errorMessage()) {
+    <div class="error-message">
+      {{ errorMessage() }}
+    </div>
+  }
+
+  <!-- Tableau des offres -->
+  @if (!loading() && offres().length > 0) {
+
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Nom de l'offre</th>
+            <th>Vol</th>
+            <th>Hôtel</th>
+            <th>Circuit</th>
+            <th>Prix total</th>
+            <th>Période</th>
+            <th>Places</th>
+            <th>Statut</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          @for (offre of offres(); track offre.idOffre) {
+            <tr>
+              <td class="offer-name">
+                {{ offre.nomOffre }}
+              </td>
+
+              <td>{{ offre.nomVol }}</td>
+
+              <td>{{ offre.nomHotel }}</td>
+
+              <td>{{ offre.nomCircuit }}</td>
+
+              <td class="price">
+                {{ offre.prixTotal }} DT
+              </td>
+
+              <td>
+                {{ offre.dateDebut }} 
+                <span class="date-separator">→</span>
+                {{ offre.dateFin }}
+              </td>
+
+              <td>{{ offre.nombrePlaces }}</td>
+
+              <td>
+                <span
+                  class="status"
+                  [class.available]="offre.statut === 'DISPONIBLE'"
+                  [class.complete]="offre.statut === 'COMPLET'"
+                  [class.cancelled]="offre.statut === 'ANNULE'"
+                  [class.inactive]="offre.statut === 'INACTIF'">
+                  {{ offre.statut }}
+                </span>
+              </td>
+
+              <td>
+                <div class="actions">
+
+                  <a
+                    [routerLink]="['/offres', offre.idOffre]"
+                    class="btn-details"
+                    title="Consulter">
+                    Détails
+                  </a>
+
+                  <a
+                    [routerLink]="['/offres', offre.idOffre, 'modifier']"
+                    class="btn-edit"
+                    title="Modifier">
+                    Modifier
+                  </a>
+
+                  <button
+                    class="btn-delete"
+                    (click)="deleteOffre(offre.idOffre!)"
+                    title="Supprimer">
+                    Supprimer
+                  </button>
+
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+
+  <!-- Liste vide -->
+  @if (!loading() && offres().length === 0 && !errorMessage()) {
+    <div class="empty-state">
+      <h3>Aucune offre disponible</h3>
+      <p>Commencez par créer votre premier package de voyage.</p>
+
+      <a routerLink="/offres/nouveau" class="btn-add">
+        + Créer une offre
+      </a>
+    </div>
+  }
+
+</div>

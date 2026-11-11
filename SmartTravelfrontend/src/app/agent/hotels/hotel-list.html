@@ -1,0 +1,185 @@
+
+<div class="page-container">
+
+  <div class="header">
+    <div>
+      <h2>Gestion des hôtels</h2>
+
+    </div>
+
+    <a class="btn" routerLink="/hotels/nouveau">
+      + Ajouter un hôtel
+    </a>
+  </div>
+
+  <div class="search-container">
+    <input
+      class="search"
+      type="search"
+      placeholder="Rechercher par nom, pays, ville ou type..."
+      aria-label="Rechercher un hôtel"
+      (input)="onSearch($any($event.target).value)"
+    />
+  </div>
+
+  @if (error()) {
+    <p class="alert error" role="alert">{{ error() }}</p>
+  }
+
+  @if (success()) {
+    <p class="alert ok" role="status">{{ success() }}</p>
+  }
+
+  @if (loading()) {
+    <p class="loading">Chargement des hôtels...</p>
+  }
+  @else if (hotels().length === 0) {
+    <div class="empty">
+      <h3>Aucun hôtel trouvé</h3>
+      <p>Ajoutez un hôtel ou modifiez votre recherche.</p>
+    </div>
+  }
+  @else {
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Hôtel</th>
+            <th>Localisation</th>
+            <th>Catégorie</th>
+            <th>Type</th>
+            <th>Prix / nuit</th>
+            <th>Capacité</th>
+            <th>Chambres</th>
+            <th>Statut</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          @for (h of hotels(); track h.idHotel) {
+
+            <!-- Ligne principale -->
+            <tr>
+
+              <td class="hotel-name">
+                <strong>{{ h.nom }}</strong>
+                <small>{{ h.adresse }}</small>
+              </td>
+
+              <td>{{ h.ville }}, {{ h.pays }}</td>
+
+              <td class="stars">
+                {{ '★'.repeat(h.categorie) }}
+              </td>
+
+              <td>{{ h.typeHebergement }}</td>
+
+              <td class="price">
+                {{ h.prixParNuit | number:'1.2-2' }} DT
+              </td>
+
+              <td>{{ h.capacite }} personnes</td>
+
+              <td>{{ h.nombreChambres }}</td>
+
+              <td>
+                <span
+                  class="badge"
+                  [class]="'badge statut-' + h.statut.toLowerCase()"
+                >
+                  {{ statutLabels[h.statut] }}
+                </span>
+              </td>
+
+              <td class="actions">
+
+                <button
+                  type="button"
+                  class="btn-details"
+                  (click)="toggleDetails(h)"
+                >
+                  {{ expandedHotelId() === h.idHotel ? 'Masquer' : 'Détails' }}
+                </button>
+
+                <a
+                  class="edit"
+                  [routerLink]="['/hotels', h.idHotel, 'modifier']"
+                >
+                  Modifier
+                </a>
+
+                <button
+                  type="button"
+                  class="delete"
+                  (click)="remove(h)"
+                >
+                  Supprimer
+                </button>
+
+              </td>
+            </tr>
+
+            <!-- Ligne des détails -->
+            @if (expandedHotelId() === h.idHotel) {
+              <tr class="details-row">
+                <td colspan="9">
+
+                  <div class="hotel-details">
+
+                    <div>
+                      <strong>Adresse</strong>
+                      <p>{{ h.adresse || 'Non renseignée' }}</p>
+                    </div>
+
+                    <div>
+                      <strong>Type d'hébergement</strong>
+                      <p>{{ h.typeHebergement || 'Non renseigné' }}</p>
+                    </div>
+
+                    <div>
+                      <strong>Capacité</strong>
+                      <p>{{ h.capacite }} personnes</p>
+                    </div>
+
+                    <div>
+                      <strong>Nombre de chambres</strong>
+                      <p>{{ h.nombreChambres }}</p>
+                    </div>
+
+                    <div>
+                      <strong>Services</strong>
+                      <p>{{ h.services || 'Aucun service renseigné' }}</p>
+                    </div>
+
+                    <div>
+                      <strong>Ajouté par</strong>
+                      <p>{{ h.agentNom || 'Non renseigné' }}</p>
+                    </div>
+
+                    <div class="description">
+                      <strong>Description</strong>
+                      <p>{{ h.description || 'Aucune description' }}</p>
+                    </div>
+
+                    @if (h.image) {
+                      <div class="hotel-image">
+                        <strong>Image</strong>
+                        <img [src]="h.image" [alt]="h.nom">
+                      </div>
+                    }
+
+                  </div>
+
+                </td>
+              </tr>
+            }
+
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+
+</div>

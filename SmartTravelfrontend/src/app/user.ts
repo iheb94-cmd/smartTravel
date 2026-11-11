@@ -1,3 +1,4 @@
+export type Role = 'ADMIN' |'AGENT_AGENCE' | 'VOYAGEUR' ;
 export interface User {
   id: number;
   nom: string;

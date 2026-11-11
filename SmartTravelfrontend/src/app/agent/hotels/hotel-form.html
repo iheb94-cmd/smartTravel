@@ -1,0 +1,177 @@
+
+<div class="form-container">
+
+  <div class="header">
+    <div>
+      <h2>{{ isEdit ? "Modifier l'hôtel" : "Ajouter un hôtel" }}</h2>
+      <p>Renseignez les informations de l'établissement.</p>
+    </div>
+
+    <a class="back" routerLink="/hotels">Retour à la liste</a>
+  </div>
+
+  @if (loading()) {
+    <p class="loading">Chargement des informations...</p>
+  }
+  @else {
+
+    <form [formGroup]="form" (ngSubmit)="save()" novalidate>
+
+      @if (error()) {
+        <p class="alert error" role="alert">{{ error() }}</p>
+      }
+
+      @for (e of formErrors; track e) {
+        <p class="alert error" role="alert">{{ e }}</p>
+      }
+
+      <h3 class="section-title">Informations générales</h3>
+
+      <div class="grid">
+
+        <div class="field">
+          <label for="nom">Nom de l'hôtel *</label>
+          <input id="nom" formControlName="nom"
+                 placeholder="Ex : Laico Tunis" maxlength="150">
+          @if (fieldError('nom')) {
+            <small class="err">{{ fieldError('nom') }}</small>
+          }
+        </div>
+
+        <div class="field">
+          <label for="typeHebergement">Type d'hébergement *</label>
+          <select id="typeHebergement" formControlName="typeHebergement">
+            @for (type of typesHebergement; track type) {
+              <option [value]="type">{{ type }}</option>
+            }
+          </select>
+          @if (fieldError('typeHebergement')) {
+            <small class="err">{{ fieldError('typeHebergement') }}</small>
+          }
+        </div>
+
+        <div class="field">
+          <label for="pays">Pays *</label>
+          <input id="pays" formControlName="pays"
+                 placeholder="Ex : Tunisie">
+          @if (fieldError('pays')) {
+            <small class="err">{{ fieldError('pays') }}</small>
+          }
+        </div>
+
+        <div class="field">
+          <label for="ville">Ville *</label>
+          <input id="ville" formControlName="ville"
+                 placeholder="Ex : Tunis">
+          @if (fieldError('ville')) {
+            <small class="err">{{ fieldError('ville') }}</small>
+          }
+        </div>
+
+        <div class="field full">
+          <label for="adresse">Adresse *</label>
+          <input id="adresse" formControlName="adresse"
+                 placeholder="Adresse complète de l'hôtel">
+          @if (fieldError('adresse')) {
+            <small class="err">{{ fieldError('adresse') }}</small>
+          }
+        </div>
+
+      </div>
+
+      <h3 class="section-title">Capacité et tarifs</h3>
+
+      <div class="grid">
+
+        <div class="field">
+          <label for="categorie">Catégorie *</label>
+          <select id="categorie" formControlName="categorie">
+            <option [ngValue]="1">1 étoile</option>
+            <option [ngValue]="2">2 étoiles</option>
+            <option [ngValue]="3">3 étoiles</option>
+            <option [ngValue]="4">4 étoiles</option>
+            <option [ngValue]="5">5 étoiles</option>
+          </select>
+          @if (fieldError('categorie')) {
+            <small class="err">{{ fieldError('categorie') }}</small>
+          }
+        </div>
+
+        <div class="field">
+          <label for="prixParNuit">Prix par nuit (DT) *</label>
+          <input id="prixParNuit" type="number" min="0.01"
+                 step="0.01" formControlName="prixParNuit"
+                 placeholder="Ex : 350">
+          @if (fieldError('prixParNuit')) {
+            <small class="err">{{ fieldError('prixParNuit') }}</small>
+          }
+        </div>
+
+        <div class="field">
+          <label for="capacite">Capacité (personnes) *</label>
+          <input id="capacite" type="number" min="1" step="1"
+                 formControlName="capacite" placeholder="Ex : 100">
+          @if (fieldError('capacite')) {
+            <small class="err">{{ fieldError('capacite') }}</small>
+          }
+        </div>
+
+        <div class="field">
+          <label for="nombreChambres">Nombre de chambres *</label>
+          <input id="nombreChambres" type="number" min="0" step="1"
+                 formControlName="nombreChambres" placeholder="Ex : 25">
+          @if (fieldError('nombreChambres')) {
+            <small class="err">{{ fieldError('nombreChambres') }}</small>
+          }
+        </div>
+
+        <div class="field">
+          <label for="statut">Statut *</label>
+          <select id="statut" formControlName="statut">
+            @for (s of statuts; track s.value) {
+              <option [value]="s.value">{{ s.label }}</option>
+            }
+          </select>
+        </div>
+
+      </div>
+
+      <h3 class="section-title">Services et description</h3>
+
+      <div class="grid">
+
+        <div class="field full">
+          <label for="services">Services proposés</label>
+          <textarea id="services" rows="3"
+                    formControlName="services"
+                    placeholder="Ex : Wi-Fi, piscine, restaurant, parking..."></textarea>
+        </div>
+
+        <div class="field full">
+          <label for="description">Description</label>
+          <textarea id="description" rows="4"
+                    formControlName="description"
+                    placeholder="Présentez l'hôtel et ses particularités..."></textarea>
+        </div>
+
+        <div class="field full">
+          <label for="image">Image (adresse web)</label>
+          <input id="image" type="url" formControlName="image"
+                 placeholder="https://exemple.com/hotel.jpg">
+          <small class="hint">Facultatif : URL d'une image de l'hôtel.</small>
+        </div>
+
+      </div>
+
+      <div class="buttons">
+        <button type="submit" class="btn" [disabled]="saving()">
+          {{ saving() ? 'Enregistrement...' :
+             (isEdit ? 'Enregistrer les modifications' : "Ajouter l'hôtel") }}
+        </button>
+
+        <a class="cancel" routerLink="/hotels">Annuler</a>
+      </div>
+
+    </form>
+  }
+</div>

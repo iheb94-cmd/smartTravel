@@ -1,0 +1,181 @@
+
+<div class="form-page">
+
+  <div class="form-header">
+    <div>
+      <h2>{{ isEdit() ? 'Modifier un circuit' : 'Ajouter un circuit' }}</h2>
+      <p>Renseignez les informations du circuit touristique.</p>
+    </div>
+
+    <a routerLink="/circuits" class="btn-back">Retour</a>
+  </div>
+
+  @if (error()) {
+    <div class="alert error">{{ error() }}</div>
+  }
+
+  @if (success()) {
+    <div class="alert success">{{ success() }}</div>
+  }
+
+  <form [formGroup]="form" (ngSubmit)="save()">
+
+    <section class="form-section">
+      <h3>Informations générales</h3>
+
+      <div class="form-grid">
+
+        <div class="field">
+          <label>Titre du circuit *</label>
+          <input type="text" formControlName="titre" placeholder="Ex : Découverte du Sud tunisien">
+          @if (fieldError('titre')) {
+            <small>Le titre est obligatoire (150 caractères maximum).</small>
+          }
+        </div>
+
+        <div class="field">
+          <label>Pays *</label>
+          <input type="text" formControlName="pays" placeholder="Tunisie">
+          @if (fieldError('pays')) {
+            <small>Le pays est obligatoire.</small>
+          }
+        </div>
+
+        <div class="field">
+          <label>Ville de départ *</label>
+          <input type="text" formControlName="villeDepart" placeholder="Tunis">
+          @if (fieldError('villeDepart')) {
+            <small>La ville de départ est obligatoire.</small>
+          }
+        </div>
+
+        <div class="field">
+          <label>Type de circuit</label>
+          <select formControlName="typeCircuit">
+            @for (type of types; track type) {
+              <option [value]="type">{{ type }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="field full">
+          <label>Destinations</label>
+          <textarea formControlName="destinations" rows="2"
+            placeholder="Kairouan, Tozeur, Douz, Djerba..."></textarea>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="form-section">
+      <h3>Dates et réservation</h3>
+
+      <div class="form-grid">
+
+        <div class="field">
+          <label>Date de départ *</label>
+          <input type="date" formControlName="dateDepart">
+          @if (fieldError('dateDepart')) {
+            <small>La date de départ est obligatoire.</small>
+          }
+        </div>
+
+        <div class="field">
+          <label>Date de retour *</label>
+          <input type="date" formControlName="dateRetour">
+          @if (fieldError('dateRetour')) {
+            <small>La date de retour est obligatoire.</small>
+          }
+        </div>
+
+        @if (form.hasError('datesIncoherentes')) {
+          <div class="field full">
+            <small>La date de retour doit être égale ou postérieure à la date de départ.</small>
+          </div>
+        }
+
+        <div class="field">
+          <label>Durée (jours) *</label>
+          <input type="number" min="1" formControlName="duree">
+          @if (fieldError('duree')) {
+            <small>La durée doit être au moins égale à 1 jour.</small>
+          }
+        </div>
+
+        <div class="field">
+          <label>Prix par personne (DT) *</label>
+          <input type="number" min="0.01" step="0.01" formControlName="prix">
+          @if (fieldError('prix')) {
+            <small>Le prix doit être supérieur à zéro.</small>
+          }
+        </div>
+
+        <div class="field">
+          <label>Nombre de places *</label>
+          <input type="number" min="1" formControlName="nombrePlaces">
+          @if (fieldError('nombrePlaces')) {
+            <small>Le nombre de places doit être au moins égal à 1.</small>
+          }
+        </div>
+
+        <div class="field">
+          <label>Statut *</label>
+          <select formControlName="statut">
+            @for (s of statuts; track s) {
+              <option [value]="s">{{ s }}</option>
+            }
+          </select>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="form-section">
+      <h3>Programme et services</h3>
+
+      <div class="form-grid">
+
+        <div class="field full">
+          <label>Programme détaillé</label>
+          <textarea formControlName="programme" rows="5"
+            placeholder="Jour 1 : ...&#10;Jour 2 : ..."></textarea>
+        </div>
+
+        <div class="field full">
+          <label>Services inclus</label>
+          <textarea formControlName="servicesInclus" rows="3"
+            placeholder="Transport, hébergement, repas, guide..."></textarea>
+        </div>
+
+        <div class="field full">
+          <label>Description</label>
+          <textarea formControlName="description" rows="4"
+            placeholder="Décrivez votre circuit touristique..."></textarea>
+        </div>
+
+        <div class="field full">
+          <label>URL de l'image</label>
+          <input type="url" formControlName="image"
+            placeholder="https://exemple.com/image.jpg">
+        </div>
+
+        @if (form.controls.image.value) {
+          <div class="image-preview">
+            <label>Aperçu de l'image</label>
+            <img [src]="form.controls.image.value" alt="Aperçu du circuit">
+          </div>
+        }
+
+      </div>
+    </section>
+
+    <div class="form-actions">
+      <a routerLink="/circuits" class="btn-cancel">Annuler</a>
+
+      <button type="submit" class="btn-save" [disabled]="loading()">
+        {{ loading() ? 'Enregistrement...' : (isEdit() ? 'Enregistrer les modifications' : 'Ajouter le circuit') }}
+      </button>
+    </div>
+
+  </form>
+</div>

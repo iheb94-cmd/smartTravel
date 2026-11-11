@@ -158,7 +158,7 @@ export class VolForm implements OnInit {
       : this.volService.create(vol);
 
     request.subscribe({
-      next: () => this.router.navigate(['/agent/vols']),
+      next: () => this.router.navigate(['/vols']),
       error: (err) => {
         this.error.set(getErrorMessage(err));
         this.saving.set(false);
