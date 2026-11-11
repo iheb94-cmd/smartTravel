@@ -33,7 +33,7 @@ export class Login {
       next: (response) => {
         this.authService.saveUserData(response);
         alert('Connexion réussie !');
-        this.router.navigate(['/']);
+        this.router.navigate([this.authService.isAgent() ? '/agent' : '/']);
       },
       error: () => {
         alert('Email ou mot de passe incorrect');

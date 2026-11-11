@@ -1,0 +1,95 @@
+<div class="header">
+  <h2>Gestion des vols</h2>
+  <a class="btn" routerLink="/agent/vols/nouveau">Ajouter un vol</a>
+</div>
+
+<input
+  class="search"
+  type="search"
+  placeholder="Rechercher un vol (numéro, ville, compagnie)..."
+  aria-label="Rechercher un vol"
+  (input)="onSearch($any($event.target).value)"
+/>
+
+@if (error()) {
+  <p class="alert error" role="alert">{{ error() }}</p>
+}
+@if (success()) {
+  <p class="alert ok" role="status">{{ success() }}</p>
+}
+
+@if (loading()) {
+  <p>Chargement...</p>
+} @else if (vols().length === 0) {
+  <p class="empty">Aucun vol trouvé.</p>
+} @else {
+  <div class="table-wrap">
+        <table>
+      <thead>
+        <tr>
+          <th>Numéro</th>
+          <th>Départ</th>
+          <th>Arrivée</th>
+          <th>Date de départ</th>
+          <th>Date d'arrivée</th>
+          <th>Compagnie</th>
+          <th>Prix</th>
+          <th>Places</th>
+          <th>Statut</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (v of vols(); track v.idVol) {
+          <tr>
+            <td>{{ v.numeroVol }}</td>
+            <td>{{ v.villeDepart }}</td>
+            <td>{{ v.villeArrivee }}</td>
+            <td>{{ v.dateDepart | date: 'dd/MM/yyyy HH:mm' }}</td>
+            <td>{{ v.dateArrivee | date: 'dd/MM/yyyy HH:mm' }}</td>
+            <td>{{ v.compagnie }}</td>
+            <td>{{ v.prix | number: '1.2-2' }} DT</td>
+            <td>{{ v.nombrePlaces }}</td>
+            <td>
+              <span class="badge" [class]="'statut-' + v.statut.toLowerCase()">
+                {{ statutLabels[v.statut] }}
+              </span>
+            </td>
+            <td class="actions">
+              <button type="button" class="link" (click)="toggle(v)"
+                      [attr.aria-expanded]="expandedId() === v.idVol">
+                {{ expandedId() === v.idVol ? 'Masquer' : 'Détails' }}
+              </button>
+              <a [routerLink]="['/agent/vols', v.idVol, 'modifier']">Modifier</a>
+              <button type="button" class="danger" (click)="remove(v)">Supprimer</button>
+            </td>
+          </tr>
+
+          @if (expandedId() === v.idVol) {
+            <tr class="details">
+              <td colspan="10">
+                <div class="detail-grid">
+                  <div><strong>Classe</strong><span>{{ v.classe }}</span></div>
+                  <div><strong>Bagage inclus</strong><span>{{ v.bagageInclus ? 'Oui' : 'Non' }}</span></div>
+                  <div><strong>Ajouté par</strong><span>{{ v.agentNom || '-' }}</span></div>
+                  <div class="wide">
+                    <strong>Description</strong>
+                    <span>{{ v.description || 'Aucune description' }}</span>
+                  </div>
+                  <div class="wide">
+                    <strong>Image</strong>
+                    @if (v.image) {
+                      <img [src]="v.image" [alt]="'Image du vol ' + v.numeroVol" />
+                    } @else {
+                      <span>Aucune image</span>
+                    }
+                  </div>
+                </div>
+              </td>
+            </tr>
+          }
+        }
+      </tbody>
+    </table>
+  </div>
+}

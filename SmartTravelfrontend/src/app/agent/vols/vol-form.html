@@ -1,0 +1,107 @@
+<div class="header">
+  <h2>{{ isEdit ? 'Modifier le vol' : 'Ajouter un vol' }}</h2>
+  <a class="back" routerLink="/agent/vols">Retour à la liste</a>
+</div>
+
+@if (loading()) {
+  <p>Chargement...</p>
+} @else {
+  <form [formGroup]="form" (ngSubmit)="save()" novalidate>
+    @if (error()) {
+      <p class="alert error" role="alert">{{ error() }}</p>
+    }
+    @for (e of formErrors; track e) {
+      <p class="alert error" role="alert">{{ e }}</p>
+    }
+
+    <div class="grid">
+      <div class="field">
+        <label for="numeroVol">Numéro de vol</label>
+        <input id="numeroVol" formControlName="numeroVol" maxlength="20" placeholder="TU714" />
+        @if (fieldError('numeroVol')) { <small class="err">{{ fieldError('numeroVol') }}</small> }
+      </div>
+
+      <div class="field">
+        <label for="compagnie">Compagnie</label>
+        <input id="compagnie" formControlName="compagnie" placeholder="Tunisair" />
+        @if (fieldError('compagnie')) { <small class="err">{{ fieldError('compagnie') }}</small> }
+      </div>
+
+      <div class="field">
+        <label for="villeDepart">Ville de départ</label>
+        <input id="villeDepart" formControlName="villeDepart" placeholder="Tunis" />
+        @if (fieldError('villeDepart')) { <small class="err">{{ fieldError('villeDepart') }}</small> }
+      </div>
+
+      <div class="field">
+        <label for="villeArrivee">Ville d'arrivée</label>
+        <input id="villeArrivee" formControlName="villeArrivee" placeholder="Istanbul" />
+        @if (fieldError('villeArrivee')) { <small class="err">{{ fieldError('villeArrivee') }}</small> }
+      </div>
+
+      <div class="field">
+        <label for="dateDepart">Date et heure de départ</label>
+        <input id="dateDepart" type="datetime-local" formControlName="dateDepart" />
+        @if (fieldError('dateDepart')) { <small class="err">{{ fieldError('dateDepart') }}</small> }
+      </div>
+
+      <div class="field">
+        <label for="dateArrivee">Date et heure d'arrivée</label>
+        <input id="dateArrivee" type="datetime-local" formControlName="dateArrivee" />
+        @if (fieldError('dateArrivee')) { <small class="err">{{ fieldError('dateArrivee') }}</small> }
+      </div>
+
+      <div class="field">
+        <label for="prix">Prix par personne (DT)</label>
+        <input id="prix" type="number" step="0.01" min="0" formControlName="prix" />
+        @if (fieldError('prix')) { <small class="err">{{ fieldError('prix') }}</small> }
+      </div>
+
+      <div class="field">
+        <label for="nombrePlaces">Nombre de places</label>
+        <input id="nombrePlaces" type="number" step="1" min="0" formControlName="nombrePlaces" />
+        @if (fieldError('nombrePlaces')) { <small class="err">{{ fieldError('nombrePlaces') }}</small> }
+      </div>
+
+      <div class="field">
+        <label for="classe">Classe</label>
+        <select id="classe" formControlName="classe">
+          @for (c of classes; track c) {
+            <option [value]="c">{{ c }}</option>
+          }
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="statut">Statut</label>
+        <select id="statut" formControlName="statut">
+          @for (s of statuts; track s.value) {
+            <option [value]="s.value">{{ s.label }}</option>
+          }
+        </select>
+      </div>
+
+      <div class="field check">
+        <input id="bagageInclus" type="checkbox" formControlName="bagageInclus" />
+        <label for="bagageInclus">Bagage inclus</label>
+      </div>
+
+      <div class="field full">
+        <label for="image">Image (adresse web, facultatif)</label>
+        <input id="image" formControlName="image" placeholder="https://..." />
+      </div>
+
+      <div class="field full">
+        <label for="description">Description (facultatif)</label>
+        <textarea id="description" rows="3" formControlName="description"></textarea>
+      </div>
+    </div>
+
+    <div class="buttons">
+      <button type="submit" class="btn" [disabled]="saving()">
+        {{ saving() ? 'Enregistrement...' : (isEdit ? 'Enregistrer les modifications' : 'Ajouter le vol') }}
+      </button>
+      <a class="cancel" routerLink="/agent/vols">Annuler</a>
+    </div>
+  </form>
+}
