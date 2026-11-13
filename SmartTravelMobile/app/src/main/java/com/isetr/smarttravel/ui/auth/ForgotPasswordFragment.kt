@@ -30,6 +30,10 @@ class ForgotPasswordFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.btnSendCode.setOnClickListener { submit() }
         binding.tvBack.setOnClickListener { findNavController().popBackStack() }
+        binding.btnBack.setOnClickListener {
+            findNavController().popBackStack()
+        }
+
         observeState()
     }
 
