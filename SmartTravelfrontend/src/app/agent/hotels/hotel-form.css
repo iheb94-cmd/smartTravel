@@ -1,62 +1,89 @@
-
 :host {
+  --primary: #159a9c;
+  --primary-dark: #117f81;
+  --primary-soft: rgba(21, 154, 156, 0.12);
+  --navy: #15364f;
+  --text: #172b3a;
+  --muted: #687783;
+  --border: #d8e0e6;
+  --bg: #f4f7f9;
+  --danger: #bd392e;
+  --radius: 12px;
+  --shadow: 0 2px 6px rgba(21, 54, 79, 0.05), 0 8px 24px rgba(21, 54, 79, 0.06);
   display: block;
-  padding: 24px;
+  background: var(--bg);
+  min-height: 100%;
 }
 
 .form-container {
-  width: 100%;
-  max-width: 1050px;
-  margin: auto;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 32px 24px;
 }
 
+/* ---------- En-tête ---------- */
 .header {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  gap: 20px;
-  margin-bottom: 28px;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
 }
 
 .header h2 {
-  color: #263746;
-  margin: 0 0 7px;
-  font-size: 25px;
+  color: var(--navy);
+  font-size: 26px;
+  margin: 0 0 6px;
 }
 
 .header p {
-  color: #77838f;
-  margin: 0;
+  color: var(--muted);
   font-size: 14px;
+  margin: 0;
 }
 
-.back {
-  color: #159a9c;
+.back,
+.cancel {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 20px;
+  border-radius: 10px;
   text-decoration: none;
+  font-family: inherit;
   font-weight: 600;
+  font-size: 14px;
+  color: var(--navy);
+  background: #eef1f4;
+  border: none;
+  cursor: pointer;
   white-space: nowrap;
+  transition: background 0.2s;
 }
 
-.back:hover {
-  text-decoration: underline;
+.back:hover,
+.cancel:hover {
+  background: #e1e7ec;
 }
 
+/* ---------- Formulaire (carte) ---------- */
 form {
   background: white;
+  border: 1px solid #e3e8ed;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
   padding: 28px;
-  border: 1px solid #e6eaee;
-  border-radius: 12px;
 }
 
 .section-title {
-  color: #159a9c;
-  font-size: 16px;
-  margin: 8px 0 20px;
+  color: var(--navy);
+  font-size: 18px;
+  margin: 0 0 20px;
   padding-bottom: 12px;
-  border-bottom: 1px solid #edf0f2;
+  border-bottom: 1px solid #e8edf0;
 }
 
-.section-title:not(:first-child) {
+.section-title:not(:first-of-type) {
   margin-top: 32px;
 }
 
@@ -69,128 +96,164 @@ form {
 .field {
   display: flex;
   flex-direction: column;
-  gap: 7px;
+  gap: 8px;
 }
 
 .field.full {
   grid-column: 1 / -1;
 }
 
-label {
-  font-size: 13px;
+.field label {
   font-weight: 600;
-  color: #263746;
+  color: #34495e;
+  font-size: 14px;
 }
 
-input,
-select,
-textarea {
+/* ---------- Champs ---------- */
+.field input,
+.field select,
+.field textarea {
   width: 100%;
-  box-sizing: border-box;
-  padding: 12px 13px;
-  border: 1px solid #dde3e8;
-  border-radius: 9px;
-  background: #f8fafb;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: white;
   font-size: 14px;
   font-family: inherit;
-  color: #344450;
+  color: var(--text);
+  box-sizing: border-box;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
 
-input:focus,
-select:focus,
-textarea:focus {
-  outline: 2px solid #159a9c;
-  border-color: #159a9c;
-  background: white;
+.field input::placeholder,
+.field textarea::placeholder {
+  color: #a3b0ba;
 }
 
-input.ng-invalid.ng-touched,
-select.ng-invalid.ng-touched,
-textarea.ng-invalid.ng-touched {
-  border-color: #c0392b;
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(21, 154, 156, 0.10);
 }
 
-textarea {
+.field textarea {
   resize: vertical;
+  line-height: 1.5;
+}
+
+/* Champ invalide (classes Angular) */
+.field input.ng-invalid.ng-touched,
+.field select.ng-invalid.ng-touched,
+.field textarea.ng-invalid.ng-touched {
+  border-color: var(--danger);
+  background: #fffafa;
+}
+
+.field input.ng-invalid.ng-touched:focus,
+.field select.ng-invalid.ng-touched:focus,
+.field textarea.ng-invalid.ng-touched:focus {
+  box-shadow: 0 0 0 3px rgba(189, 57, 46, 0.12);
 }
 
 .err {
-  color: #c0392b;
+  color: var(--danger);
   font-size: 12px;
 }
 
 .hint {
-  color: #89949e;
+  color: var(--muted);
   font-size: 12px;
 }
 
-.alert {
-  padding: 11px 14px;
-  border-radius: 8px;
-  margin: 0 0 15px;
-  font-size: 14px;
-}
-
-.alert.error {
-  background: #fdecea;
-  color: #8a1f17;
-}
-
+/* ---------- Boutons ---------- */
 .buttons {
   display: flex;
+  justify-content: flex-end;
   align-items: center;
-  gap: 20px;
-  margin-top: 30px;
-  padding-top: 20px;
-  border-top: 1px solid #edf0f2;
+  gap: 12px;
+  margin-top: 28px;
+  padding-top: 22px;
+  border-top: 1px solid #e8edf0;
+}
+
+/* Le bouton principal passe avant "Annuler" dans le HTML : on inverse l'ordre visuel */
+.buttons .btn {
+  order: 2;
+}
+
+.buttons .cancel {
+  order: 1;
 }
 
 .btn {
-  background: #159a9c;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: var(--primary);
   color: white;
-  border: 0;
-  border-radius: 9px;
-  padding: 12px 20px;
-  font-size: 14px;
+  padding: 12px 22px;
+  border-radius: 10px;
+  font-family: inherit;
   font-weight: 600;
+  font-size: 14px;
   cursor: pointer;
+  box-shadow: 0 4px 12px rgba(21, 154, 156, 0.3);
+  transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
 }
 
-.btn:hover:not(:disabled) {
-  background: #118082;
+.btn:hover {
+  background: var(--primary-dark);
+  box-shadow: 0 6px 16px rgba(21, 154, 156, 0.35);
+}
+
+.btn:active {
+  transform: translateY(1px);
 }
 
 .btn:disabled {
   opacity: 0.6;
   cursor: not-allowed;
+  box-shadow: none;
 }
 
-.cancel {
-  color: #5f6b76;
-  text-decoration: none;
+.btn:focus-visible,
+.cancel:focus-visible,
+.back:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* ---------- Alertes / chargement ---------- */
+.alert {
+  padding: 14px 16px;
+  border-radius: 10px;
+  margin: 0 0 16px;
   font-size: 14px;
+  border-left: 4px solid;
 }
 
-.cancel:hover {
-  text-decoration: underline;
+.alert.error {
+  background: #fde8e8;
+  color: #b42318;
+  border-color: #b42318;
 }
 
 .loading {
-  color: #159a9c;
-  padding: 20px;
+  padding: 48px 25px;
+  text-align: center;
+  color: var(--muted);
+  background: white;
+  border: 1px dashed var(--border);
+  border-radius: var(--radius);
 }
 
+/* ---------- Responsive ---------- */
 @media (max-width: 700px) {
-  :host {
-    padding: 14px;
-  }
-
-  form {
-    padding: 18px;
-  }
-
-  .grid {
-    grid-template-columns: 1fr;
+  .form-container {
+    padding: 20px 14px;
   }
 
   .header {
@@ -198,12 +261,20 @@ textarea {
     flex-direction: column;
   }
 
-  .buttons {
-    align-items: stretch;
-    flex-direction: column;
+  form {
+    padding: 20px 18px;
   }
 
-  .btn {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .buttons {
+    flex-direction: column-reverse;
+  }
+
+  .btn,
+  .cancel {
     width: 100%;
   }
 }

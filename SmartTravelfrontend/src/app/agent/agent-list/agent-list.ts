@@ -1,5 +1,4 @@
-
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, OnInit, computed, signal } from '@angular/core';
 import { UserDto } from '../../user';
 import { AgentService } from '../../services/agent';
 import { Router } from '@angular/router';
@@ -18,6 +17,25 @@ export class AgentList implements OnInit {
   agents = signal<UserDto[]>([]);
   loading = signal(false);
   errorMessage = signal('');
+  searchTerm = signal('');
+
+  filteredAgents = computed(() => {
+    const term = this.normalize(this.searchTerm());
+    if (!term) {
+      return this.agents();
+    }
+
+    const words = term.split(/\s+/);
+
+    return this.agents().filter(a => {
+      const haystack = this.normalize(
+        [a.nom, a.prenom, `${a.nom} ${a.prenom}`, `${a.prenom} ${a.nom}`, a.email, a.telephone]
+          .filter(Boolean)
+          .join(' ')
+      );
+      return words.every(w => haystack.includes(w));
+    });
+  });
 
   constructor(
     private agentService: AgentService,
@@ -38,7 +56,6 @@ export class AgentList implements OnInit {
       )
       .subscribe({
         next: (data) => {
-          console.log('Agents reçus :', data);
           this.agents.set(data);
         },
         error: (err) => {
@@ -48,6 +65,19 @@ export class AgentList implements OnInit {
           );
         }
       });
+  }
+
+  onSearch(value: string): void {
+    this.searchTerm.set(value);
+  }
+
+  private normalize(value: string | null | undefined): string {
+    return (value ?? '')
+      .toString()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .toLowerCase()
+      .trim();
   }
 
   navigateToAdd(): void {

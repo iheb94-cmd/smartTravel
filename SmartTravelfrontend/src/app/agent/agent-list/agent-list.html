@@ -3,16 +3,24 @@
   <div class="page-header">
     <div>
       <div class="title-row">
-        <mat-icon class="title-icon" aria-hidden="true">groups</mat-icon>
-        <h1 class="title">Liste des agents</h1>
       </div>
-      <span class="subtitle">{{ agents().length }} agent(s) enregistré(s)</span>
+      
     </div>
 
     <button class="btn-main" (click)="navigateToAdd()">
       <mat-icon aria-hidden="true">person_add</mat-icon>
       Ajouter un agent
     </button>
+  </div>
+
+  <div class="search-container">
+    <input
+      class="search"
+      type="search"
+      placeholder="Rechercher par nom, prénom, e-mail ou téléphone..."
+      aria-label="Rechercher un agent"
+      (input)="onSearch($any($event.target).value)"
+    />
   </div>
 
   @if (loading()) {
@@ -38,7 +46,7 @@
           </thead>
 
           <tbody>
-            @for (agent of agents(); track agent.id) {
+            @for (agent of filteredAgents(); track agent.id) {
               <tr>
                 <td>
                   <div class="cell-user">
@@ -70,7 +78,7 @@
             @empty {
               <tr>
                 <td colspan="4" class="empty">
-                  Aucun agent enregistré.
+                  {{ searchTerm() ? 'Aucun agent ne correspond à votre recherche.' : 'Aucun agent enregistré.' }}
                 </td>
               </tr>
             }

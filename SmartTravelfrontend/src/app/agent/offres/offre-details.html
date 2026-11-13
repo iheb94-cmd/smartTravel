@@ -1,4 +1,3 @@
-
 <div class="page-container">
 
   <div class="page-header">
@@ -12,27 +11,26 @@
     </button>
   </div>
 
-  @if (loading) {
+  @if (loading()) {
     <div class="message">Chargement des informations...</div>
   }
 
-  @if (errorMessage) {
-    <div class="error-message">{{ errorMessage }}</div>
+  @if (errorMessage()) {
+    <div class="error-message">{{ errorMessage() }}</div>
   }
 
-  @if (offre) {
+  @if (offre(); as o) {
 
     <div class="details-card">
 
       <div class="offer-header">
         <div>
           <span class="offer-label">OFFRE DE VOYAGE</span>
-          <h3>{{ offre.nomOffre }}</h3>
+          <h3>{{ o.nomOffre }}</h3>
         </div>
 
-        <span class="status"
-          [ngClass]="offre.statut.toLowerCase()">
-          {{ offre.statut }}
+        <span class="status" [ngClass]="o.statut?.toLowerCase()">
+          {{ o.statut }}
         </span>
       </div>
 
@@ -42,53 +40,67 @@
         <div class="info-grid">
           <div>
             <span>Prix total</span>
-            <strong>{{ offre.prixTotal }} TND</strong>
+            <strong>{{ o.prixTotal }} TND</strong>
           </div>
 
           <div>
             <span>Nombre de places</span>
-            <strong>{{ offre.nombrePlaces }}</strong>
+            <strong>{{ o.nombrePlaces }}</strong>
           </div>
 
           <div>
             <span>Date de début</span>
-            <strong>{{ offre.dateDebut | date:'dd/MM/yyyy' }}</strong>
+            <strong>{{ o.dateDebut | date:'dd/MM/yyyy' }}</strong>
           </div>
 
           <div>
             <span>Date de fin</span>
-            <strong>{{ offre.dateFin | date:'dd/MM/yyyy' }}</strong>
+            <strong>{{ o.dateFin | date:'dd/MM/yyyy' }}</strong>
           </div>
         </div>
       </div>
 
       <div class="info-section">
-        <h4>Vol associé</h4>
+  <h4>Vol associé</h4>
+  @if (vol(); as v) {
+    <div class="component-card">
+      <h5>{{ v.numeroVol || o.nomVol }}</h5>
+      <p>Compagnie : {{ v.compagnie }}</p>
+      <p>Départ : {{ v.villeDepart }} → Arrivée : {{ v.villeArrivee }}</p>
+      <p>Prix : {{ v.prix }} TND</p>
+    </div>
+  } @else {
+    <div class="component-card"><h5>{{ o.nomVol }}</h5></div>
+  }
+</div>
 
-        <div class="component-card">
-          <h5>{{ offre.nomVol || 'Vol #' + offre.volId }}</h5>
-          <p>Identifiant : {{ offre.volId }}</p>
-        </div>
-      </div>
+<div class="info-section">
+  <h4>Hôtel associé</h4>
+  @if (hotel(); as h) {
+    <div class="component-card">
+      <h5>{{ h.nom || o.nomHotel }}</h5>
+      <p>Ville : {{ h.ville }}</p>
+      <p>Étoiles : {{ h.etoiles }}</p>
+      <p>Prix / nuit : {{ h.prixNuit }} TND</p>
+    </div>
+  } @else {
+    <div class="component-card"><h5>{{ o.nomHotel }}</h5></div>
+  }
+</div>
 
-      <div class="info-section">
-        <h4>Hôtel associé</h4>
-
-        <div class="component-card">
-          <h5>{{ offre.nomHotel || 'Hôtel #' + offre.hotelId }}</h5>
-          <p>Identifiant : {{ offre.hotelId }}</p>
-        </div>
-      </div>
-
-      <div class="info-section">
-        <h4>Circuit associé</h4>
-
-        <div class="component-card">
-          <h5>{{ offre.nomCircuit || 'Circuit #' + offre.circuitId }}</h5>
-          <p>Identifiant : {{ offre.circuitId }}</p>
-        </div>
-      </div>
-
+<div class="info-section">
+  <h4>Circuit associé</h4>
+  @if (circuit(); as c) {
+    <div class="component-card">
+      <h5>{{ c.nom || o.nomCircuit }}</h5>
+      <p>Description : {{ c.description }}</p>
+      <p>Durée : {{ c.duree }} jours</p>
+      <p>Prix : {{ c.prix }} TND</p>
+    </div>
+  } @else {
+    <div class="component-card"><h5>{{ o.nomCircuit }}</h5></div>
+  }
+</div>
       <div class="form-actions">
         <button class="btn-edit" (click)="modifierOffre()">
           Modifier l'offre

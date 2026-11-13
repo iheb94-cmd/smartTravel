@@ -5,8 +5,9 @@ import {
   withInterceptorsFromDi,
   HTTP_INTERCEPTORS
 } from '@angular/common/http';
-import { JwtInterceptor } from './interceptors/JwtInterceptor';
+
 import { routes } from './app.routes';
+import { JwtInterceptor } from './Interceptors/JwtInterceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [

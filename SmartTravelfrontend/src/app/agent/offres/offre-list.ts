@@ -1,5 +1,4 @@
-
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, OnInit, computed, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { OffreService } from './offre.service';
 import { Offre } from './offre.model';
@@ -16,6 +15,35 @@ export class OffreList implements OnInit {
   offres = signal<Offre[]>([]);
   loading = signal(false);
   errorMessage = signal('');
+  searchTerm = signal('');
+
+  filteredOffres = computed(() => {
+    const term = this.normalize(this.searchTerm());
+    if (!term) {
+      return this.offres();
+    }
+
+    const words = term.split(/\s+/);
+
+    return this.offres().filter(o => {
+      const haystack = this.normalize(
+        [
+          o.nomOffre,
+          o.nomVol,
+          o.nomHotel,
+          o.nomCircuit,
+          o.prixTotal,
+          o.dateDebut,
+          o.dateFin,
+          o.nombrePlaces,
+          o.statut
+        ]
+          .filter(v => v !== null && v !== undefined)
+          .join(' ')
+      );
+      return words.every(w => haystack.includes(w));
+    });
+  });
 
   constructor(private offreService: OffreService) {}
 
@@ -35,20 +63,28 @@ export class OffreList implements OnInit {
       },
       error: (error) => {
         console.error('Erreur lors du chargement des offres', error);
-        this.errorMessage.set(
-          'Impossible de charger les offres.'
-        );
+        this.errorMessage.set('Impossible de charger les offres.');
         this.loading.set(false);
       }
     });
   }
 
+  onSearch(value: string): void {
+    this.searchTerm.set(value);
+  }
+
+  private normalize(value: string | number | null | undefined): string {
+    return (value ?? '')
+      .toString()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .toLowerCase()
+      .trim();
+  }
+
   // Supprimer une offre
   deleteOffre(id: number): void {
-
-    const confirmation = confirm(
-      'Voulez-vous vraiment supprimer cette offre ?'
-    );
+    const confirmation = confirm('Voulez-vous vraiment supprimer cette offre ?');
 
     if (!confirmation) {
       return;
@@ -62,9 +98,7 @@ export class OffreList implements OnInit {
       },
       error: (error) => {
         console.error('Erreur lors de la suppression', error);
-        this.errorMessage.set(
-          'Impossible de supprimer cette offre.'
-        );
+        this.errorMessage.set('Impossible de supprimer cette offre.');
       }
     });
   }
