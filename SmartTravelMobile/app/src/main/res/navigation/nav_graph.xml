@@ -6,7 +6,20 @@
     <fragment
         android:id="@+id/offersFragment"
         android:name="com.isetr.smarttravel.ui.offers.OffersFragment"
-        android:label="Offres" />
+        android:label="Offres">
+        <action
+            android:id="@+id/action_offers_to_details"
+            app:destination="@id/offerDetailsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/offerDetailsFragment"
+        android:name="com.isetr.smarttravel.ui.offers.OffreDetailsFragment"
+        android:label="Détails de l'offre">
+        <argument
+            android:name="offreId"
+            app:argType="integer" />
+    </fragment>
 
     <fragment
         android:id="@+id/registerFragment"
@@ -28,26 +41,18 @@
             app:destination="@id/registerFragment"
             app:popUpTo="@id/loginFragment"
             app:popUpToInclusive="true" />
+        <!-- التعديل هنا: بعد الـ Login يرجع للـ offersFragment ويمسح الـ loginFragment من الـ back stack -->
         <action
             android:id="@+id/action_login_to_home"
-            app:destination="@id/homeFragment"
-            app:popUpTo="@id/offersFragment"
+            app:destination="@id/offersFragment"
+            app:popUpTo="@id/loginFragment"
             app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_login_to_forgot"
             app:destination="@id/forgotPasswordFragment" />
     </fragment>
 
-    <fragment
-        android:id="@+id/homeFragment"
-        android:name="com.isetr.smarttravel.ui.home.HomeFragment"
-        android:label="Accueil">
-        <action
-            android:id="@+id/action_home_to_offers"
-            app:destination="@id/offersFragment"
-            app:popUpTo="@id/homeFragment"
-            app:popUpToInclusive="true" />
-    </fragment>
+
 
     <fragment
         android:id="@+id/forgotPasswordFragment"

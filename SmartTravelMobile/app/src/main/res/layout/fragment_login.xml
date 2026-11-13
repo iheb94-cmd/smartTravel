@@ -3,33 +3,45 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#F4F6FA"
     android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical">
-
+        <!-- Header SmartTravel -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/navy"
             android:orientation="vertical"
-            android:padding="24dp">
+            android:paddingStart="22dp"
+            android:paddingTop="10dp"
+            android:paddingEnd="22dp"
+            android:paddingBottom="22dp">
 
+
+
+
+                <ImageView
+                    android:id="@+id/btnBack"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="16dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:padding="9dp"
+                    android:src="@drawable/ic_arrow_back"
+                    app:tint="@color/white" />
+
+
+            <!-- Title -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:letterSpacing="0.1"
-                android:text="SMARTTRAVEL"
-                android:textColor="@color/white"
-                android:textSize="12sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="5dp"
                 android:text="Connexion"
                 android:textColor="@color/white"
                 android:textSize="26sp"
@@ -39,11 +51,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:text="Accédez à votre compte"
-                android:textColor="@color/white"
+                android:text="Accédez à votre espace voyageur"
+                android:textColor="#D0DCE7"
                 android:textSize="13sp" />
+
+            <!-- Accent -->
+            <View
+                android:layout_width="38dp"
+                android:layout_height="3dp"
+                android:layout_marginTop="12dp"
+                android:background="@color/teal" />
+
         </LinearLayout>
 
+
+        <!-- Formulaire -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -55,69 +77,83 @@
                 android:layout_height="wrap_content"
                 android:text="Vos identifiants"
                 android:textColor="@color/navy"
-                android:textSize="18sp"
+                android:textSize="19sp"
                 android:textStyle="bold" />
 
+            <!-- Email -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tilEmail"
                 style="@style/Widget.SmartTravel.Input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:hint="Adresse email">
+                android:layout_marginTop="20dp"
+                android:hint="Adresse email"
+                app:startIconDrawable="@android:drawable/ic_dialog_email"
+                app:startIconTint="@color/teal">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etEmail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textEmailAddress" />
+
             </com.google.android.material.textfield.TextInputLayout>
 
+            <!-- Password -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tilPassword"
                 style="@style/Widget.SmartTravel.Input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="14dp"
                 android:hint="Mot de passe"
-                app:endIconMode="password_toggle">
+                app:endIconMode="password_toggle"
+                app:startIconDrawable="@android:drawable/ic_lock_lock"
+                app:startIconTint="@color/teal">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etPassword"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPassword" />
+
             </com.google.android.material.textfield.TextInputLayout>
 
+            <!-- Forgot password -->
             <TextView
                 android:id="@+id/tvForgot"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="48dp"
                 android:gravity="end|center_vertical"
-                android:minHeight="48dp"
                 android:text="Mot de passe oublié ?"
                 android:textColor="@color/teal"
+                android:textSize="13sp"
                 android:textStyle="bold" />
 
+            <!-- Login -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnLogin"
                 android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:layout_marginTop="8dp"
+                android:layout_height="54dp"
+                android:layout_marginTop="12dp"
                 android:text="SE CONNECTER"
                 android:textStyle="bold"
-                app:cornerRadius="16dp" />
+                app:backgroundTint="@color/navy"
+                app:cornerRadius="12dp" />
 
+            <!-- Register -->
             <TextView
                 android:id="@+id/tvRegister"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_height="52dp"
+                android:layout_marginTop="12dp"
                 android:gravity="center"
-                android:minHeight="48dp"
                 android:text="Pas encore de compte ? S'inscrire"
                 android:textColor="@color/teal"
+                android:textSize="14sp"
                 android:textStyle="bold" />
+
         </LinearLayout>
+
     </LinearLayout>
 </ScrollView>

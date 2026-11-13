@@ -41,6 +41,10 @@ class RegisterFragment : Fragment() {
         )
         binding.btnRegister.setOnClickListener { submit() }
         binding.tvLogin.setOnClickListener { goToLogin() }
+        binding.btnBack.setOnClickListener {
+            findNavController().popBackStack()
+        }
+
         observeState()
     }
 

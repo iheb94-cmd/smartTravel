@@ -31,6 +31,10 @@ class ResetPasswordFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.btnReset.setOnClickListener { submit() }
         binding.tvBack.setOnClickListener { findNavController().popBackStack() }
+        binding.btnBack.setOnClickListener {
+            findNavController().popBackStack()
+        }
+
         observeState()
     }
 
