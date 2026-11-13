@@ -66,4 +66,8 @@ public class HotelController {
 
         return ResponseEntity.noContent().build();
     }
+    @GetMapping("/public/{id}")
+    public HotelDto getByIdPublic(@PathVariable Long id) {
+        return hotelService.getByIdPublic(id);
+    }
 }

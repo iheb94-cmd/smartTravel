@@ -29,9 +29,14 @@ public class SecurityConfig {
                         .requestMatchers("/auth/**",
                                 "/swagger-ui.html",
                                 "/api/admin/agents",
+                                "/agent/offres*",
                                 "/swagger-ui/**",
                                 "/v3/api-docs/**",
+                                "/agent/offres/public",
+                                "/agent/offres/public/**",
                                 "/auth/register-first-admin",
+                                "/agent/hotels/public/**",
+                                "/agent/circuits/public/**",
                                 "/pass/**").permitAll()
                         .anyRequest().authenticated()
                 )
