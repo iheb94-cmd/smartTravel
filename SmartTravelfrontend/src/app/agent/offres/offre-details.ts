@@ -1,10 +1,14 @@
-
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
+import { finalize, forkJoin } from 'rxjs';
 
 import { OffreService } from './offre.service';
 import { Offre } from './offre.model';
+
+import { VolService } from '../vols/vol.service';
+import { HotelService } from '../hotels/hotel.service';
+import { CircuitService } from '../circuits/circuit.service';
 
 @Component({
   selector: 'app-offre-details',
@@ -15,63 +19,71 @@ import { Offre } from './offre.model';
 })
 export class OffreDetails implements OnInit {
 
-  offre: Offre | null = null;
-  loading = false;
-  errorMessage = '';
+  offre = signal<Offre | null>(null);
+  vol = signal<any | null>(null);
+  hotel = signal<any | null>(null);
+  circuit = signal<any | null>(null);
+
+  loading = signal(false);
+  errorMessage = signal('');
 
   constructor(
     private offreService: OffreService,
+    private volService: VolService,
+    private hotelService: HotelService,
+    private circuitService: CircuitService,
     private route: ActivatedRoute,
     private router: Router
   ) {}
 
   ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
-
     if (!id || isNaN(id)) {
-      this.errorMessage = 'Identifiant de l’offre invalide.';
+      this.errorMessage.set('Identifiant de l’offre invalide.');
       return;
     }
-
     this.loadOffre(id);
   }
 
-  // Charger les détails de l'offre
-  
-loadOffre(id: number): void {
-  this.loading = true;
-  this.errorMessage = '';
+  loadOffre(id: number): void {
+    this.loading.set(true);
+    this.errorMessage.set('');
 
-  console.log('Chargement de l’offre ID :', id);
+    this.offreService.getById(id).subscribe({
+      next: (offre) => {
+        this.offre.set(offre);
 
-  this.offreService.getById(id).subscribe({
-    next: (data) => {
-      console.log('Données reçues du backend :', data);
-
-      this.offre = data;
-      this.loading = false;
-
-      console.log('État loading :', this.loading);
-      console.log('Offre chargée :', this.offre);
-    },
-    error: (error) => {
-      console.error('Erreur chargement offre :', error);
-
-      this.errorMessage = 'Impossible de charger les détails de cette offre.';
-      this.loading = false;
-    }
-  });
-}
-
-
-  // Modifier l'offre
-  modifierOffre(): void {
-    if (this.offre?.idOffre) {
-      this.router.navigate(['/offres', this.offre.idOffre, 'modifier']);
-    }
+        forkJoin({
+          vol: this.volService.getById(offre.volId),
+          hotel: this.hotelService.getById(offre.hotelId),
+          circuit: this.circuitService.getById(offre.circuitId)
+        })
+        .pipe(finalize(() => this.loading.set(false)))
+        .subscribe({
+          next: (res) => {
+            this.vol.set(res.vol);
+            this.hotel.set(res.hotel);
+            this.circuit.set(res.circuit);
+          },
+          error: (err) => {
+            console.error('Erreur détails associés :', err);
+            this.errorMessage.set('Impossible de charger le vol, l’hôtel ou le circuit.');
+          }
+        });
+      },
+      error: (err) => {
+        console.error('Erreur chargement offre :', err);
+        this.errorMessage.set('Impossible de charger les détails de cette offre.');
+        this.loading.set(false);
+      }
+    });
   }
 
-  // Retour à la liste
+  modifierOffre(): void {
+    const o = this.offre();
+    if (o?.idOffre) this.router.navigate(['/offres', o.idOffre, 'modifier']);
+  }
+
   retourListe(): void {
     this.router.navigate(['/offres']);
   }

@@ -1,4 +1,3 @@
-
 <div class="page-container">
 
   <!-- En-tête -->
@@ -10,6 +9,17 @@
     <a routerLink="/offres/nouveau" class="btn-add">
       + Ajouter une offre
     </a>
+  </div>
+
+  <!-- Recherche -->
+  <div class="search-container">
+    <input
+      class="search"
+      type="search"
+      placeholder="Rechercher par nom, vol, hôtel, circuit, prix, date ou statut..."
+      aria-label="Rechercher une offre"
+      (input)="onSearch($any($event.target).value)"
+    />
   </div>
 
   <!-- Message de chargement -->
@@ -27,7 +37,7 @@
   }
 
   <!-- Tableau des offres -->
-  @if (!loading() && offres().length > 0) {
+  @if (!loading() && filteredOffres().length > 0) {
 
     <div class="table-container">
       <table>
@@ -46,7 +56,7 @@
         </thead>
 
         <tbody>
-          @for (offre of offres(); track offre.idOffre) {
+          @for (offre of filteredOffres(); track offre.idOffre) {
             <tr>
               <td class="offer-name">
                 {{ offre.nomOffre }}
@@ -63,7 +73,7 @@
               </td>
 
               <td>
-                {{ offre.dateDebut }} 
+                {{ offre.dateDebut }}
                 <span class="date-separator">→</span>
                 {{ offre.dateFin }}
               </td>
@@ -111,6 +121,14 @@
           }
         </tbody>
       </table>
+    </div>
+  }
+
+  <!-- Aucun résultat pour la recherche -->
+  @if (!loading() && offres().length > 0 && filteredOffres().length === 0) {
+    <div class="empty-state">
+      <h3>Aucun résultat</h3>
+      <p>Aucune offre ne correspond à votre recherche.</p>
     </div>
   }
 

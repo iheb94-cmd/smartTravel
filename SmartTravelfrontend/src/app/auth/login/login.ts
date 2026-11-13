@@ -23,21 +23,30 @@ export class Login {
     private router: Router
   ) {}
 
-  login(): void {
-    if (!this.email || !this.password) {
-     alert('Veuillez remplir tous les champs.');
-      return;
-    }
-
-    this.authService.login(this.email, this.password).subscribe({
-      next: (response) => {
-        this.authService.saveUserData(response);
-        alert('Connexion réussie !');
-        this.router.navigate([this.authService.isAgent() ? '/agent' : '/']);
-      },
-      error: () => {
-        alert('Email ou mot de passe incorrect');
-      },
-    });
+login(): void {
+  if (!this.email || !this.password) {
+    alert('Veuillez remplir tous les champs.');
+    return;
   }
+
+  this.authService.login(this.email, this.password).subscribe({
+    next: (response) => {
+      this.authService.saveUserData(response);
+      alert('Connexion réussie !');
+
+      if (this.authService.isAgent()) {
+        this.router.navigate(['/vols']);
+      }
+      else if (this.authService.isAdmin()) {
+        this.router.navigate(['/agents']);
+      }
+      else {
+        this.router.navigate(['/']);
+      }
+    },
+    error: () => {
+      alert('Email ou mot de passe incorrect');
+    },
+  });
+}
 }

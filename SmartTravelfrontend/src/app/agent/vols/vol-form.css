@@ -1,34 +1,276 @@
-.header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; }
-h2 { color: #12304a; margin: 0; }
-.back { color: #159a9c; text-decoration: none; font-weight: 600; }
-.back:hover { text-decoration: underline; }
-
-.grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 20px; }
-.field { display: flex; flex-direction: column; gap: 6px; }
-.field.full { grid-column: 1 / -1; }
-.field.check { flex-direction: row; align-items: center; gap: 10px; padding-top: 22px; }
-
-label { font-size: 13px; font-weight: 600; color: #12304a; }
-input, select, textarea {
-  padding: 11px 13px; border: 1px solid #dde1e6; border-radius: 10px;
-  background: #f3f5f7; font-size: 14px; font-family: inherit;
+:host {
+  --primary: #159a9c;
+  --primary-dark: #117f81;
+  --primary-soft: rgba(21, 154, 156, 0.12);
+  --navy: #15364f;
+  --text: #172b3a;
+  --muted: #687783;
+  --border: #d8e0e6;
+  --bg: #f4f7f9;
+  --danger: #bd392e;
+  --radius: 12px;
+  --shadow: 0 2px 6px rgba(21, 54, 79, 0.05), 0 8px 24px rgba(21, 54, 79, 0.06);
+  display: block;
+  background: var(--bg);
+  min-height: 100%;
+  box-sizing: border-box;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 32px 24px;
 }
-input:focus, select:focus, textarea:focus { outline: 2px solid #159a9c; background: #fff; }
-input.ng-invalid.ng-touched, input.ng-invalid.ng-dirty { border-color: #c0392b; }
-input[type='checkbox'] { width: 18px; height: 18px; padding: 0; }
 
-.err { color: #c0392b; font-size: 12px; }
-.alert { padding: 10px 14px; border-radius: 8px; margin: 0 0 14px; font-size: 14px; }
-.alert.error { background: #fdecea; color: #8a1f17; }
+/* ---------- En-tête ---------- */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
 
-.buttons { display: flex; align-items: center; gap: 18px; margin-top: 24px; }
+.header h2 {
+  color: var(--navy);
+  font-size: 26px;
+  margin: 0;
+}
+
+.back,
+.cancel {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 20px;
+  border-radius: 10px;
+  text-decoration: none;
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--navy);
+  background: #eef1f4;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.2s;
+}
+
+.back:hover,
+.cancel:hover {
+  background: #e1e7ec;
+}
+
+/* ---------- Chargement ---------- */
+:host > p:not(.alert) {
+  padding: 48px 25px;
+  text-align: center;
+  color: var(--muted);
+  background: white;
+  border: 1px dashed var(--border);
+  border-radius: var(--radius);
+}
+
+/* ---------- Formulaire (carte) ---------- */
+form {
+  background: white;
+  border: 1px solid #e3e8ed;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 28px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.field.full {
+  grid-column: 1 / -1;
+}
+
+.field label {
+  font-weight: 600;
+  color: #34495e;
+  font-size: 14px;
+}
+
+/* ---------- Champs ---------- */
+.field input,
+.field select,
+.field textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: white;
+  font-size: 14px;
+  font-family: inherit;
+  color: var(--text);
+  box-sizing: border-box;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.field input::placeholder,
+.field textarea::placeholder {
+  color: #a3b0ba;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(21, 154, 156, 0.10);
+}
+
+.field textarea {
+  resize: vertical;
+  line-height: 1.5;
+}
+
+.field input.ng-invalid.ng-touched,
+.field select.ng-invalid.ng-touched,
+.field textarea.ng-invalid.ng-touched {
+  border-color: var(--danger);
+  background: #fffafa;
+}
+
+.field input.ng-invalid.ng-touched:focus,
+.field select.ng-invalid.ng-touched:focus,
+.field textarea.ng-invalid.ng-touched:focus {
+  box-shadow: 0 0 0 3px rgba(189, 57, 46, 0.12);
+}
+
+.err {
+  color: var(--danger);
+  font-size: 12px;
+}
+
+/* ---------- Checkbox ---------- */
+.field.check {
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  align-self: end;
+  padding: 12px 0;
+}
+
+.field.check input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  padding: 0;
+  accent-color: var(--primary);
+  cursor: pointer;
+}
+
+.field.check label {
+  cursor: pointer;
+}
+
+/* ---------- Boutons ---------- */
+.buttons {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 12px;
+  margin-top: 28px;
+  padding-top: 22px;
+  border-top: 1px solid #e8edf0;
+}
+
+/* "Enregistrer" est avant "Annuler" dans le HTML : on inverse l'ordre visuel */
+.buttons .btn {
+  order: 2;
+}
+
+.buttons .cancel {
+  order: 1;
+}
+
 .btn {
-  background: #159a9c; color: #fff; border: 0; border-radius: 10px;
-  padding: 12px 20px; font-size: 14px; font-weight: 600; cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: var(--primary);
+  color: white;
+  padding: 12px 22px;
+  border-radius: 10px;
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(21, 154, 156, 0.3);
+  transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
 }
-.btn:hover:not(:disabled) { background: #118082; }
-.btn:disabled { opacity: 0.6; cursor: not-allowed; }
-.cancel { color: #5f6b76; text-decoration: none; }
-.cancel:hover { text-decoration: underline; }
 
-@media (max-width: 700px) { .grid { grid-template-columns: 1fr; } }
+.btn:hover {
+  background: var(--primary-dark);
+  box-shadow: 0 6px 16px rgba(21, 154, 156, 0.35);
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.btn:focus-visible,
+.cancel:focus-visible,
+.back:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* ---------- Alertes ---------- */
+.alert {
+  padding: 14px 16px;
+  border-radius: 10px;
+  margin: 0 0 16px;
+  font-size: 14px;
+  border-left: 4px solid;
+}
+
+.alert.error {
+  background: #fde8e8;
+  color: #b42318;
+  border-color: #b42318;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 700px) {
+  :host {
+    padding: 20px 14px;
+  }
+
+  .header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  form {
+    padding: 20px 18px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .buttons {
+    flex-direction: column-reverse;
+  }
+
+  .btn,
+  .cancel {
+    width: 100%;
+  }
+}
