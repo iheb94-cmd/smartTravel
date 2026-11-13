@@ -38,8 +38,7 @@ public class OffreService {
 
     // 1. Afficher toutes les offres de l'agent connecté
     public List<OffreDto> getAll(String email) {
-
-        return offreRepository.findByAgent_Email(email)
+        return offreRepository.findAll()
                 .stream()
                 .map(OffreMapper::toDto)
                 .toList();
@@ -120,23 +119,33 @@ public class OffreService {
         offre.setDateFin(dto.getDateFin());
         offre.setNombrePlaces(dto.getNombrePlaces());
         offre.setStatut(dto.getStatut());
-        offre.setAgent(agent);
+        if (offre.getIdOffre() == null) {
+            offre.setAgent(agent);
+        }
     }
 
     // Vérifier que l'offre appartient à l'agent connecté
     private Offre getOffreAgent(Long id, String email) {
+        return offreRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "Offre introuvable"
+                ));
+    }
+    // Public (visiteur) : toutes les offres
+    public List<OffreDto> getAllPublic() {
+        return offreRepository.findAll()
+                .stream()
+                .map(OffreMapper::toDto)
+                .toList();
+    }
 
+    // Public (visiteur) : une offre par ID
+    public OffreDto getByIdPublic(Long id) {
         Offre offre = offreRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND, "Offre introuvable"));
 
-        if (!offre.getAgent().getEmail().equals(email)) {
-            throw new ResponseStatusException(
-                    HttpStatus.FORBIDDEN,
-                    "Vous n'avez pas accès à cette offre"
-            );
-        }
-
-        return offre;
+        return OffreMapper.toDto(offre);
     }
 }

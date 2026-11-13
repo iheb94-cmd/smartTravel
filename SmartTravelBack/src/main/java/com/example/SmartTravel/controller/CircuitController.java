@@ -66,4 +66,8 @@ public class CircuitController {
 
         circuitService.delete(id);
     }
+    @GetMapping("/public/{id}")
+    public CircuitDto getByIdPublic(@PathVariable Long id) {
+        return circuitService.getByIdPublic(id);
+    }
 }

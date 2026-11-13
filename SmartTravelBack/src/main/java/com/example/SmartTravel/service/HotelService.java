@@ -11,7 +11,9 @@ import com.example.SmartTravel.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -81,5 +83,10 @@ public class HotelService {
         return hotelRepository.findById(id)
                 .orElseThrow(() ->
                         new NotFoundException("Hôtel introuvable"));
+    }
+    public HotelDto getByIdPublic(Long id) {
+        Hotel hotel = hotelRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Hôtel introuvable"));
+        return HotelMapper.toDto(hotel);
     }
 }

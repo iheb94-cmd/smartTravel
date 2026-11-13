@@ -8,8 +8,10 @@ import com.example.SmartTravel.entity.User;
 import com.example.SmartTravel.repository.CircuitRepository;
 import com.example.SmartTravel.repository.UserRepository;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -116,5 +118,12 @@ public class CircuitService {
                     "La date de retour doit être après la date de départ"
             );
         }
+    }
+    public CircuitDto getByIdPublic(Long id) {
+        Circuit circuit = circuitRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "Circuit introuvable"));
+
+        return CircuitMapper.toDto(circuit);
     }
 }

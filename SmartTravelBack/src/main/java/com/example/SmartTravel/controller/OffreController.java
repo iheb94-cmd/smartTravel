@@ -69,4 +69,13 @@ public class OffreController {
 
         offreService.delete(id, authentication.getName());
     }
+    @GetMapping("/public")
+    public List<OffreDto> getAllPublic() {
+        return offreService.getAllPublic();
+    }
+
+    @GetMapping("/public/{id}")
+    public OffreDto getByIdPublic(@PathVariable Long id) {
+        return offreService.getByIdPublic(id);
+    }
 }
